@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>lastmile.nyc</title>
+    <link rel="shortcut icon" href="images/favicon.png">
+    <!-- leaflet css -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"/>
+    <!-- leaflet js -->
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="css/TripgoRouting.css"/>
+
+    <script src="dist/TripgoRouting.js"></script>
+    <script src="lib/Polyline.encoded.js"></script>
+    <script src="lib/jquery-3.2.1.js"></script>
+
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <form
+      id="form"
+      style="position: absolute; top: 0; right: 0; border: 0; z-index:1500"
+    >
+      <label for="from">From:</label><br>
+      <input type="text" id="from" name="from"><br>
+      <label for="to">To:</label><br>
+      <input type="text" id="to" name="to"><br>
+      <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        var formData = new FormData(document.getElementById("form"));
+        alert(formData);
+        let options = {
+            "mapId" : "map",
+            "googleTile": false,
+            "mapCenter" : {
+                "lat": 40.6971041913,
+                "lng": -73.9795382135
+            },
+            "floatPanel": false,
+            "tripgoApiKey": "9f9623a674f4307a10083542fc91748d", // HIDE ME
+        };
+        L.tripgoRouting.mapLayer.initialize(options);
+    </script>
+
+    <!--
+    <script>
+      let form = new FormData(document.getElementById("form"));
+      let fromValue = form.get("from");
+      let toValue = form.get("to");
+      console.log(fromValue);
+      console.log(toValue);
+    </script>
+    -->
+
+  </body>
+</html>
