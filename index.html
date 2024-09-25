@@ -1,37 +1,35 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>lastmile.nyc</title>
+
     <link rel="shortcut icon" href="images/favicon.png">
-    <!-- leaflet css -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"/>
-    <!-- leaflet js -->
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin="">
+    </script>
 
     <link rel="stylesheet" href="css/TripgoRouting.css"/>
 
+    
     <script src="dist/TripgoRouting.js"></script>
     <script src="lib/Polyline.encoded.js"></script>
     <script src="lib/jquery-3.2.1.js"></script>
+
+    <link href="https://cdn.maptiler.com/maptiler-geocoding-control/v1.3.3/style.css" rel="stylesheet">
+    <script src="https://cdn.maptiler.com/maptiler-geocoding-control/v1.3.3/leaflet.umd.js"></script>
 
   </head>
   <body>
     <div id="map"></div>
 
-    <form
-      id="form"
-      style="position: absolute; top: 0; right: 0; border: 0; z-index:1500"
-    >
-      <label for="from">From:</label><br>
-      <input type="text" id="from" name="from"><br>
-      <label for="to">To:</label><br>
-      <input type="text" id="to" name="to"><br>
-      <input type="submit" value="Submit">
-    </form>
-
     <script>
-        var formData = new FormData(document.getElementById("form"));
-        alert(formData);
-        let options = {
+        // Tripgo initialization
+        let tripgoOptions = {
             "mapId" : "map",
             "googleTile": false,
             "mapCenter" : {
@@ -41,18 +39,12 @@
             "floatPanel": false,
             "tripgoApiKey": "9f9623a674f4307a10083542fc91748d", // HIDE ME
         };
-        L.tripgoRouting.mapLayer.initialize(options);
-    </script>
+        L.tripgoRouting.mapLayer.initialize(tripgoOptions);
 
-    <!--
-    <script>
-      let form = new FormData(document.getElementById("form"));
-      let fromValue = form.get("from");
-      let toValue = form.get("to");
-      console.log(fromValue);
-      console.log(toValue);
+        const maptilerKey = "WC24eL3GnXhDH6hsEJyc";             // HIDE / CHANGE ME
+        const map = L.tripgoRouting.mapLayer.getMap();
+        L.control.maptilerGeocoding({ apiKey: maptilerKey }).addTo(map);
     </script>
-    -->
 
   </body>
 </html>
