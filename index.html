@@ -20,8 +20,14 @@
     <script src="lib/Polyline.encoded.js"></script>
     <script src="lib/jquery-3.2.1.js"></script>
 
+    <!--
     <link href="https://cdn.maptiler.com/maptiler-geocoding-control/v1.3.3/style.css" rel="stylesheet">
     <script src="https://cdn.maptiler.com/maptiler-geocoding-control/v1.3.3/leaflet.umd.js"></script>
+    -->
+
+    <link rel="stylesheet" href="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.css" />
+    <script src="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.js"></script>
+
 
   </head>
   <body>
@@ -42,12 +48,28 @@
         L.tripgoRouting.mapLayer.initialize(tripgoOptions);
         const map = L.tripgoRouting.mapLayer.getMap();
 
-        // Maptiler initialization
-        const maptilerKey = "WC24eL3GnXhDH6hsEJyc";             // HIDE / CHANGE ME
+        // Geoapify initialization
+        const geoapifyKey = "b054a9def22d4a9cb953354cf062f058"; // HIDE ME
 
-        const fromControl = L.control.maptilerGeocoding({ apiKey: maptilerKey });
-        fromControl.setPosition("topleft").addTo(map);
+        const origin = L.control.addressSearch(geoapifyKey, {
+          position: "topleft",
+          placeholder: "Origin",
+          // changeMe!
+          resultCallback: (address) => {
+            console.log(address);
+          },
+        });
+        map.addControl(origin);
+
+        const destination = L.control.addressSearch(geoapifyKey, {
+          position: "topleft",
+          placeholder: "Destination",
+          // changeMe!
+          resultCallback: (address) => {
+            console.log(address);
+          },
+        });
+        map.addControl(destination);
     </script>
-
   </body>
 </html>
