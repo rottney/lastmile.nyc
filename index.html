@@ -40,10 +40,13 @@
             "tripgoApiKey": "9f9623a674f4307a10083542fc91748d", // HIDE ME
         };
         L.tripgoRouting.mapLayer.initialize(tripgoOptions);
-
-        const maptilerKey = "WC24eL3GnXhDH6hsEJyc";             // HIDE / CHANGE ME
         const map = L.tripgoRouting.mapLayer.getMap();
-        L.control.maptilerGeocoding({ apiKey: maptilerKey }).addTo(map);
+
+        // Maptiler initialization
+        const maptilerKey = "WC24eL3GnXhDH6hsEJyc";             // HIDE / CHANGE ME
+
+        const fromControl = L.control.maptilerGeocoding({ apiKey: maptilerKey });
+        fromControl.setPosition("topleft").addTo(map);
     </script>
 
   </body>
