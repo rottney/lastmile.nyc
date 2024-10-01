@@ -3,7 +3,7 @@
 * Represents a SkedGo Segment
 * */
 
-class Segment {
+export class Segment {
 
     constructor(jsonSegment) {
         this.startTime = jsonSegment.startTime;

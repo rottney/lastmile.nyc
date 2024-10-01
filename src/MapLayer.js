@@ -1,3 +1,5 @@
+import { Messenger } from "../src/Messenger.js";
+
 //L.tripgoRouting.mapLayer = (function(){
 export const mapLayer = (function() {
 

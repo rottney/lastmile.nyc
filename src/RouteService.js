@@ -3,7 +3,8 @@
 *
 * */
 
-L.tripgoRouting.routeService = (function () {
+//L.tripgoRouting.routeService = (function () {
+export const routeService = (function () {
 
     let templatesCache = [];
     const transportModes = ["pt_pub", "ps_tax", "me_car", "me_mot", "cy_bic", "wa_wal", "ps_tax_MYDRIVER", "ps_tnc_UBER",

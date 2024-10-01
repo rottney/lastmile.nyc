@@ -1,9 +1,11 @@
+import { Segment } from "../src/Segment.js";
+
 /*
 *
 * Represents a SkedGo Trip
 * */
 
-class Trip {
+export class Trip {
 
     constructor(jsonTrip) {
 

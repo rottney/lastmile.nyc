@@ -1,4 +1,4 @@
-class Messenger {
+export class Messenger {
 
     constructor(){
         this.messenger = L.DomUtil.create("div")

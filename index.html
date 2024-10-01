@@ -39,6 +39,9 @@
     <script type="module">
         import { tripgoRouting } from "./src/TripGoRouting.js";
         import { mapLayer } from "./src/MapLayer.js";
+        import { routeService } from "./src/RouteService.js";
+        import { util } from "./src/Util.js";
+        import { tripWidget } from "./src/TripWidget.js";
 
         // Tripgo initialization
         let tripgoOptions = {
@@ -55,6 +58,10 @@
         L.tripgoRouting.mapLayer = mapLayer;
         L.tripgoRouting.mapLayer.initialize(tripgoOptions);
         const map = L.tripgoRouting.mapLayer.getMap();
+
+        L.tripgoRouting.routeService = routeService;
+        L.tripgoRouting.util = util;
+        L.tripgoRouting.tripWidget = tripWidget;
 
         // Geoapify initialization
         const geoapifyKey = "b054a9def22d4a9cb953354cf062f058"; // HIDE ME

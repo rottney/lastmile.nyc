@@ -1,4 +1,5 @@
-L.tripgoRouting.tripWidget = (function () {
+//L.tripgoRouting.tripWidget = (function () {
+export const tripWidget = (function () {
 
     function span(text, className){
         let span = L.DomUtil.create("span");
