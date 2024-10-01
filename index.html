@@ -15,10 +15,12 @@
 
     <link rel="stylesheet" href="css/TripgoRouting.css"/>
 
-    
+    <!--
     <script src="dist/TripgoRouting.js"></script>
+    -->
     
     <!--
+    <script type="module" src="src/TripGoRouting.js"></script>
     <script type="module" src="src/MapLayer.js"></script>
     -->
 
@@ -34,7 +36,9 @@
   <body>
     <div id="map"></div>
 
-    <script>
+    <script type="module">
+        import { tripgoRouting } from "./src/TripGoRouting.js";
+
         // Tripgo initialization
         let tripgoOptions = {
             "mapId" : "map",
@@ -46,8 +50,15 @@
             "floatPanel": false,
             "tripgoApiKey": "9f9623a674f4307a10083542fc91748d", // HIDE ME
         };
+
+        /*
         L.tripgoRouting.mapLayer.initialize(tripgoOptions);
         const map = L.tripgoRouting.mapLayer.getMap();
+        */
+
+        //console.log(L);
+
+        console.log(L.tripgoRouting);
 
         // Geoapify initialization
         const geoapifyKey = "b054a9def22d4a9cb953354cf062f058"; // HIDE ME
