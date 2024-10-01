@@ -1,6 +1,5 @@
 import { Trip } from "../src/Trip.js";
 
-//L.tripgoRouting.util =  (function () {
 export const util = (function () {
 
      const remoteIconUrl = "https://tripgo.skedgo.com/satapp/modeicons/";

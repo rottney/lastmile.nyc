@@ -1,4 +1,3 @@
-//L.tripgoRouting.tripWidget = (function () {
 export const tripWidget = (function () {
 
     function span(text, className){

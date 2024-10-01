@@ -3,7 +3,6 @@
 *
 * */
 
-//L.tripgoRouting.routeService = (function () {
 export const routeService = (function () {
 
     let templatesCache = [];
