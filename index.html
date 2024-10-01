@@ -38,6 +38,7 @@
 
     <script type="module">
         import { tripgoRouting } from "./src/TripGoRouting.js";
+        import { mapLayer } from "./src/MapLayer.js";
 
         // Tripgo initialization
         let tripgoOptions = {
@@ -51,14 +52,9 @@
             "tripgoApiKey": "9f9623a674f4307a10083542fc91748d", // HIDE ME
         };
 
-        /*
+        L.tripgoRouting.mapLayer = mapLayer;
         L.tripgoRouting.mapLayer.initialize(tripgoOptions);
         const map = L.tripgoRouting.mapLayer.getMap();
-        */
-
-        //console.log(L);
-
-        console.log(L.tripgoRouting);
 
         // Geoapify initialization
         const geoapifyKey = "b054a9def22d4a9cb953354cf062f058"; // HIDE ME
@@ -66,9 +62,10 @@
         const origin = L.control.addressSearch(geoapifyKey, {
           position: "topleft",
           placeholder: "Origin",
-          // changeMe!
           resultCallback: (address) => {
-            console.log(address);
+            const lat = address.lat;
+            const lng = address.lon;
+            mapLayer.createMarker("from", lat, lng);
           },
         });
         map.addControl(origin);
@@ -76,9 +73,10 @@
         const destination = L.control.addressSearch(geoapifyKey, {
           position: "topleft",
           placeholder: "Destination",
-          // changeMe!
           resultCallback: (address) => {
-            console.log(address);
+            const lat = address.lat;
+            const lng = address.lon;
+            mapLayer.createMarker("to", lat, lng);
           },
         });
         map.addControl(destination);

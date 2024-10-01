@@ -1,4 +1,5 @@
-L.tripgoRouting.mapLayer = (function(){
+//L.tripgoRouting.mapLayer = (function(){
+export const mapLayer = (function() {
 
     let map = null;
     let mapId = "";
@@ -9,7 +10,6 @@ L.tripgoRouting.mapLayer = (function(){
     let floatPanel = false;
 
     function popUpSelector (latlng) {
-        console.log("made it her");
         return "<div>  " +
             "<div class='addressSelector' " + "onclick='L.tripgoRouting.mapLayer.createMarker(\"from\"," + latlng.lat + "," + latlng.lng + ")'>" +
             "Directions from here" +
