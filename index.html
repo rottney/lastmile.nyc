@@ -32,15 +32,19 @@
         import { util } from "./src/Util.js";
         import { tripWidget } from "./src/TripWidget.js";
 
+        // center of nyc
+        const lat = 40.6971041913;
+        const lng = -73.9795382135;
+
         // Tripgo initialization
         let tripgoOptions = {
             "mapId" : "map",
             "googleTile": false,
             "mapCenter" : {
-                "lat": 40.6971041913,
-                "lng": -73.9795382135
+                "lat": lat,
+                "lng": lng,
             },
-            "floatPanel": false,
+            "floatPanel": true,
             "tripgoApiKey": "9f9623a674f4307a10083542fc91748d", // HIDE ME
         };
 
@@ -76,6 +80,29 @@
           },
         });
         map.addControl(destination);
+
+        // Custom code
+        const settings = `
+          <button onclick="addMode('transit')">Show transit directions</button>
+          <button onclick="addMode('biking')">Show biking directions</button>
+          <button onclick="addMode('walking')">Show walking directions</button>
+          <button onclick="addMode('rideshare')">Show rideshare directions</button>
+          <br><br>
+          <button onclick="saveSettings()">Save settings</button>
+        `;
+        const popup = L.popup().setLatLng([lat, lng]).setContent(settings).openOn(map);
+    </script>
+
+    <script>
+        let modes = [];
+
+        function addMode(mode) {
+          modes.push(mode);
+        }
+
+        function saveSettings() {
+          console.log(modes);
+        }
     </script>
   </body>
 </html>
