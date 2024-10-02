@@ -165,7 +165,9 @@ export const mapLayer = (function() {
                 let from = stops.from.getLatLng();
                 let to = stops.to.getLatLng();
 
-                L.tripgoRouting.routeService.route(tripgoApiKey, from, to);
+                fetch("http://localhost:5000/getmodes")
+                    .then((response) => response.json())
+                    .then((json) => L.tripgoRouting.routeService.route(tripgoApiKey, from, to, json));
             }
         },
 

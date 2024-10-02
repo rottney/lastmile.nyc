@@ -1,17 +1,21 @@
 from flask import Flask, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 transitModes = []
 
-'''
-@app.route("/")
-def index():
-    return app.send_static_file("index.html")
-'''
+
+@app.route("/getmodes")
+def getmodes():
+    global transitModes
+    return transitModes
 
 @app.route("/setmodes", methods=["POST"])
 def setmodes():
+    global transitModes
+
     # reset modes first
     transitModes = []
 
@@ -23,3 +27,10 @@ def setmodes():
             transitModes.append(mode)
     
     return transitModes
+
+
+def main():
+    app.run()
+
+if __name__ == "__main__":
+    main()

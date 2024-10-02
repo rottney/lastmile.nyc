@@ -82,17 +82,6 @@
         map.addControl(destination);
 
         // Custom code
-        /*
-        const settings = `
-          <button onclick="addModes(['pt_pub'])">Show transit directions</button>
-          <button onclick="addModes(['cy_bic-s'])">Show bikeshare directions</button>
-          <button onclick="addModes(['wa_wal'])">Show walking directions</button>
-          <button onclick="addModes(['ps_tax', 'ps_tnc'])">Show rideshare directions</button>
-          <br><br>
-          <button onclick="saveSettings()">Save settings</button>
-        `;
-        */
-
         const settings = `
           <form action="http://localhost:5000/setmodes" method="post" target="_blank">
             <input type="checkbox" id="transit" name="transit" value="pt_pub">
@@ -108,24 +97,6 @@
         `;
 
         const popup = L.popup().setLatLng([lat, lng]).setContent(settings).openOn(map);
-    </script>
-
-    <script type="module">
-        import { routeService } from "./src/RouteService.js";
-
-        let modesToUse = [];
-
-        function addModes(modes) {
-          for (let mode of modes) {
-            modesToUse.push(mode);
-          }
-        }
-
-        function saveSettings() {
-          console.log(modesToUse);
-          L.tripgoRouting.routeService = routeService;
-          routeService.setTransportModes(modesToUse);
-        }
     </script>
   </body>
 </html>

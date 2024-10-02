@@ -10,7 +10,7 @@ export const routeService = (function () {
     const transportModes = ["pt_pub", "ps_tax", "me_car", "me_mot", "cy_bic", "wa_wal", "ps_tax_MYDRIVER", "ps_tnc_UBER",
         "me_car-r_SwiftFleet", "me_car-p_BlaBlaCar", "cy_bic-s"];
     */
-    let transportModes = [];
+    //let transportModes = [];
     const baseURL = "https://api.tripgo.com/v1/routing.json?v=11&locale=en";
 
     function getUrl(from, to, mode){
@@ -19,8 +19,8 @@ export const routeService = (function () {
         return routeUrl;
     }
 
-    var requirements = transportModes.length + 1;
-    function getRoutes(url, apiKey) {
+    //var requirements = transportModes.length + 1;
+    function getRoutes(url, apiKey, requirements) {
         // make the request to SkedGo backend
         $.ajax({
             url         : url,
@@ -72,9 +72,13 @@ export const routeService = (function () {
     };
 
     return {
-        setTransportModes : function(modes) {
-            transportModes = modes;
+        /*
+        setTransportModes : function() {
+            return fetch("http://localhost:5000/getmodes")
+                .then((response) => response.json())
+                .then((json) => {return json});
         },
+        */
 
         /*
         * Param: hashCode, value which is provided from server. It identifies a template.
@@ -90,7 +94,8 @@ export const routeService = (function () {
         *       from: leaflet latlng
         *       to: leaflet latlng
         * */
-        route : function(tripgoApiKey, from, to){
+        route : function(tripgoApiKey, from, to, transportModes){
+            const requirements = transportModes.length + 1;
             if(L.tripgoRouting.validLatLng(from) && L.tripgoRouting.validLatLng(to)){
                 L.tripgoRouting.mapLayer.getMessenger().info("getting routes form SkedGo server ...");
                 let multimodal =  "";
@@ -98,9 +103,9 @@ export const routeService = (function () {
                     let url = getUrl(from, to, "&modes="+mode);
 
                     multimodal = multimodal + "&modes=" + mode;
-                    getRoutes(url, tripgoApiKey);
+                    getRoutes(url, tripgoApiKey, requirements);
                 });
-                getRoutes(getUrl(from, to, multimodal), tripgoApiKey);
+                getRoutes(getUrl(from, to, multimodal), tripgoApiKey, requirements);
             }else{
                 console.error("Malformed coordinates");
             }
