@@ -9,17 +9,7 @@ export const mapLayer = (function() {
     let messenger = null;
     let tripgoApiKey = null;
     let floatPanel = false;
-
-    function popUpSelector (latlng) {
-        return "<div>  " +
-            "<div class='addressSelector' " + "onclick='L.tripgoRouting.mapLayer.createMarker(\"from\"," + latlng.lat + "," + latlng.lng + ")'>" +
-            "Directions from here" +
-            "</div>" +
-            " <div class='addressSelector' onclick='L.tripgoRouting.mapLayer.createMarker(\"to\", " + latlng.lat + "," + latlng.lng + ")'>" +
-            "Direction to here" +
-            "</div> " +
-            "</div>";
-    };
+    
 
     function setGoogleTile() {
         L.tileLayer('https://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i{z}!2i{x}!3i{y}!4i256!2m3!1e0!2sm!3i349018013!3m9!2sen-US!3sUS!5e18!12m1!1e47!12m3!1e37!2m1!1ssmartmaps!4e0',{
@@ -131,16 +121,6 @@ export const mapLayer = (function() {
                 messenger = new Messenger();
 
             return messenger;
-        },
-
-        fromClick : function(e){
-            if(!L.tripgoRouting.mapLayer.showingTrip()) {
-                let latlng = L.latLng(e.latlng.lat, e.latlng.lng);
-                L.popup()
-                    .setLatLng(latlng)
-                    .setContent(popUpSelector(e.latlng))
-                    .openOn(L.tripgoRouting.mapLayer.getMap());
-            }
         },
 
         createMarker : function(where, lat, lng){

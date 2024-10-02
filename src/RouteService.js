@@ -10,7 +10,6 @@ export const routeService = (function () {
     const transportModes = ["pt_pub", "ps_tax", "me_car", "me_mot", "cy_bic", "wa_wal", "ps_tax_MYDRIVER", "ps_tnc_UBER",
         "me_car-r_SwiftFleet", "me_car-p_BlaBlaCar", "cy_bic-s"];
     */
-    //let transportModes = [];
     const baseURL = "https://api.tripgo.com/v1/routing.json?v=11&locale=en";
 
     function getUrl(from, to, mode){
