@@ -6,8 +6,11 @@
 export const routeService = (function () {
 
     let templatesCache = [];
+    /*
     const transportModes = ["pt_pub", "ps_tax", "me_car", "me_mot", "cy_bic", "wa_wal", "ps_tax_MYDRIVER", "ps_tnc_UBER",
         "me_car-r_SwiftFleet", "me_car-p_BlaBlaCar", "cy_bic-s"];
+    */
+    let transportModes = [];
     const baseURL = "https://api.tripgo.com/v1/routing.json?v=11&locale=en";
 
     function getUrl(from, to, mode){
@@ -69,6 +72,10 @@ export const routeService = (function () {
     };
 
     return {
+        setTransportModes : function(modes) {
+            transportModes = modes;
+        },
+
         /*
         * Param: hashCode, value which is provided from server. It identifies a template.
         * Return: trip template.

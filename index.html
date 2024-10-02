@@ -26,7 +26,7 @@
     <div id="map"></div>
 
     <script type="module">
-        import { tripgoRouting } from "./src/TripGoRouting.js";
+        import { tripgoRouting } from "./src/TripGoRouting.js"
         import { mapLayer } from "./src/MapLayer.js";
         import { routeService } from "./src/RouteService.js";
         import { util } from "./src/Util.js";
@@ -82,26 +82,50 @@
         map.addControl(destination);
 
         // Custom code
+        /*
         const settings = `
-          <button onclick="addMode('transit')">Show transit directions</button>
-          <button onclick="addMode('biking')">Show biking directions</button>
-          <button onclick="addMode('walking')">Show walking directions</button>
-          <button onclick="addMode('rideshare')">Show rideshare directions</button>
+          <button onclick="addModes(['pt_pub'])">Show transit directions</button>
+          <button onclick="addModes(['cy_bic-s'])">Show bikeshare directions</button>
+          <button onclick="addModes(['wa_wal'])">Show walking directions</button>
+          <button onclick="addModes(['ps_tax', 'ps_tnc'])">Show rideshare directions</button>
           <br><br>
           <button onclick="saveSettings()">Save settings</button>
         `;
+        */
+
+        // change method back to POST
+        const settings = `
+          <form action="http://localhost:5000/setmodes" method="get" target="_blank">
+            <input type="checkbox" id="transit" name="transit" value="pt_pub">
+            <label for="transit"> Show transit directions</label><br>
+            <input type="checkbox" id="bikeshare" name="bikeshare" value="cy-bic-s">
+            <label for="bikeshare"> Show bikeshare directions</label><br>
+            <input type="checkbox" id="walking" name="walking" value="wa_wal">
+            <label for="walking"> Show walking directions</label><br>
+            <input type="checkbox" id="rideshare" name="rideshare" value="ps_tax ps_tnc">
+            <label for="rideshare"> Show rideshare directions</label><br>
+            <input type="submit" value="Submit">
+          </form>
+        `;
+
         const popup = L.popup().setLatLng([lat, lng]).setContent(settings).openOn(map);
     </script>
 
-    <script>
-        let modes = [];
+    <script type="module">
+        import { routeService } from "./src/RouteService.js";
 
-        function addMode(mode) {
-          modes.push(mode);
+        let modesToUse = [];
+
+        function addModes(modes) {
+          for (let mode of modes) {
+            modesToUse.push(mode);
+          }
         }
 
         function saveSettings() {
-          console.log(modes);
+          console.log(modesToUse);
+          L.tripgoRouting.routeService = routeService;
+          routeService.setTransportModes(modesToUse);
         }
     </script>
   </body>
