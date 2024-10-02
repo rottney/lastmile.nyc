@@ -93,9 +93,8 @@
         `;
         */
 
-        // change method back to POST
         const settings = `
-          <form action="http://localhost:5000/setmodes" method="get" target="_blank">
+          <form action="http://localhost:5000/setmodes" method="post" target="_blank">
             <input type="checkbox" id="transit" name="transit" value="pt_pub">
             <label for="transit"> Show transit directions</label><br>
             <input type="checkbox" id="bikeshare" name="bikeshare" value="cy-bic-s">

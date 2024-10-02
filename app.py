@@ -10,9 +10,12 @@ def index():
     return app.send_static_file("index.html")
 '''
 
-@app.route("/setmodes", methods=["POST", "GET"])    # change back to only POST
+@app.route("/setmodes", methods=["POST"])
 def setmodes():
-    args = request.args.copy()
+    # reset modes first
+    transitModes = []
+
+    args = request.form
     
     for arg in args:
         modes = args[arg].split(" ")
