@@ -27,7 +27,6 @@ export const routeService = (function () {
                 xhr.setRequestHeader('X-TripGo-Key', apiKey);
             },
             success     : function(result) {
-                console.log(requirements);
                 if(requirements <= 1)
                     L.tripgoRouting.mapLayer.getMessenger().hideMessage();
 
