@@ -40,7 +40,6 @@ export const routeService = (function () {
                     }
                     catch (err) {
                         console.log("ERROR: " + err.message);
-                        L.tripgoRouting.mapLayer.getMessenger().error("No routes found");
                     }
                 }else{
                     // check if server gets results
@@ -100,6 +99,11 @@ export const routeService = (function () {
                     getRoutes(url, tripgoApiKey, requirements--);
                 });
                 getRoutes(getUrl(from, to, multimodal), tripgoApiKey, requirements--);
+
+                if (!L.tripgoRouting.tripWidget.isVisible()) {
+                    // what is wrong with this timeout?
+                    L.tripgoRouting.mapLayer.getMessenger().error("No routes found");
+                }
             }else{
                 console.error("Malformed coordinates");
             }
