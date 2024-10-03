@@ -96,20 +96,33 @@ export const tripWidget = (function () {
         return tripDetails;
     }
 
+    // consider refactoring lol
     function getDirections(i) {
-        console.clear();
-        console.log(directions[i]);
-        //return directions[i];   //?
+        const tripDiv = document.getElementById("trip" + i);
+        const dirList = div("dirlist");
+        let s = "<ul>";
+        directions[i].forEach((element) => s += "<li>" + element + "</li>");
+        s += "</ul>";
+
+        const numChildNodes = tripDiv.childNodes.length;
+        if (numChildNodes === 3) {
+            dirList.innerHTML = s;
+            tripDiv.appendChild(dirList);
+        }
+        else if (numChildNodes === 4) {
+            const lastChild = tripDiv.lastElementChild;
+            tripDiv.removeChild(lastChild);
+        }
     }
 
     function eventListener(e) {
-        let id = e.target.id;
+        let id = e.target.id.slice(-1);
         getDirections(id);
     }
 
     function addButton(i) {
         let btn = div("inline");
-        btn.innerHTML = '<button type="button" id="' + i + '">Details</button>';
+        btn.innerHTML = '<button type="button" id="detailsBtn' + i + '">Details</button>';
         btn.addEventListener("click", eventListener);
         return btn;
     }

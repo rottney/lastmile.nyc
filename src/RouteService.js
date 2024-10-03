@@ -6,6 +6,7 @@
 export const routeService = (function () {
 
     let templatesCache = [];
+    let globali = 0;
     /*
     const transportModes = ["pt_pub", "ps_tax", "me_car", "me_mot", "cy_bic", "wa_wal", "ps_tax_MYDRIVER", "ps_tnc_UBER",
         "me_car-r_SwiftFleet", "me_car-p_BlaBlaCar", "cy_bic-s"];
@@ -31,7 +32,6 @@ export const routeService = (function () {
                     L.tripgoRouting.mapLayer.getMessenger().hideMessage();
 
                 requirements --;
-                console.log(requirements);
                 if (L.tripgoRouting.has(result, 'groups')) {
                     try {
                         templatesCache = L.tripgoRouting.util.parseTemplates(result.segmentTemplates);
@@ -64,10 +64,10 @@ export const routeService = (function () {
     }
 
     function success(result) {
-        let i=0;
+        //let i=0;
         result.forEach(function(element) {
-            L.tripgoRouting.tripWidget.addTrip(element, "trip" + i);
-            i++;
+            L.tripgoRouting.tripWidget.addTrip(element, "trip" + globali);
+            globali++;
         });
         if(!L.tripgoRouting.mapLayer.showingTrip())
             result[0].drawTrip(L.tripgoRouting.mapLayer.getMap());
