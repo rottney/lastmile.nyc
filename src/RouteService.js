@@ -27,6 +27,7 @@ export const routeService = (function () {
                 xhr.setRequestHeader('X-TripGo-Key', apiKey);
             },
             success     : function(result) {
+                console.log(requirements);
                 if(requirements <= 1)
                     L.tripgoRouting.mapLayer.getMessenger().hideMessage();
 
@@ -85,7 +86,7 @@ export const routeService = (function () {
         *       to: leaflet latlng
         * */
         route : function(tripgoApiKey, from, to, transportModes){
-            const requirements = transportModes.length + 1;
+            let requirements = transportModes.length + 1;
             if(L.tripgoRouting.validLatLng(from) && L.tripgoRouting.validLatLng(to)){
                 L.tripgoRouting.mapLayer.getMessenger().info("getting routes form SkedGo server ...");
                 let multimodal =  "";
@@ -93,9 +94,9 @@ export const routeService = (function () {
                     let url = getUrl(from, to, "&modes="+mode);
 
                     multimodal = multimodal + "&modes=" + mode;
-                    getRoutes(url, tripgoApiKey, requirements);
+                    getRoutes(url, tripgoApiKey, requirements--);
                 });
-                getRoutes(getUrl(from, to, multimodal), tripgoApiKey, requirements);
+                getRoutes(getUrl(from, to, multimodal), tripgoApiKey, requirements--);
             }else{
                 console.error("Malformed coordinates");
             }

@@ -133,7 +133,6 @@ export const tripWidget = (function () {
         box.style.marginBottom = "12%";
         box.appendChild(btn);
         return box;
-
     }
 
     return {
