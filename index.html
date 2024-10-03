@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>lastmile.nyc</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
     <link rel="shortcut icon" href="images/favicon.png">
 
@@ -85,7 +87,12 @@
           onAdd: function(map) {
             const p = L.DomUtil.create("div");
             const form = `
-              <form action="http://localhost:5000/setmodes" method="post" target="_blank">
+              <form 
+                action="http://localhost:5000/setmodes" 
+                method="post" 
+                target="_blank" 
+                style="background-color: coral; padding: 12px;"
+              >
                 <input type="checkbox" id="transit" name="transit" value="pt_pub">
                 <label for="transit"> Show transit directions</label><br>
                 <input type="checkbox" id="bikeshare" name="bikeshare" value="me_mic-s">

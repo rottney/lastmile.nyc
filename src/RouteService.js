@@ -18,7 +18,6 @@ export const routeService = (function () {
         return routeUrl;
     }
 
-    //var requirements = transportModes.length + 1;
     function getRoutes(url, apiKey, requirements) {
         // make the request to SkedGo backend
         $.ajax({
@@ -71,14 +70,6 @@ export const routeService = (function () {
     };
 
     return {
-        /*
-        setTransportModes : function() {
-            return fetch("http://localhost:5000/getmodes")
-                .then((response) => response.json())
-                .then((json) => {return json});
-        },
-        */
-
         /*
         * Param: hashCode, value which is provided from server. It identifies a template.
         * Return: trip template.
