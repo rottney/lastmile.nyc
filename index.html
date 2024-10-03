@@ -81,21 +81,36 @@
         map.addControl(destination);
 
         // Custom code
-        const settings = `
-          <form action="http://localhost:5000/setmodes" method="post" target="_blank">
-            <input type="checkbox" id="transit" name="transit" value="pt_pub">
-            <label for="transit"> Show transit directions</label><br>
-            <input type="checkbox" id="bikeshare" name="bikeshare" value="me_mic-s">
-            <label for="bikeshare"> Show bikeshare directions</label><br>
-            <input type="checkbox" id="walking" name="walking" value="wa_wal">
-            <label for="walking"> Show walking directions</label><br>
-            <input type="checkbox" id="rideshare" name="rideshare" value="ps_tax ps_tnc">
-            <label for="rideshare"> Show rideshare directions</label><br>
-            <input type="submit" value="Submit">
-          </form>
-        `;
+        L.Control.Settings = L.Control.extend({
+          onAdd: function(map) {
+            const p = L.DomUtil.create("div");
+            const form = `
+              <form action="http://localhost:5000/setmodes" method="post" target="_blank">
+                <input type="checkbox" id="transit" name="transit" value="pt_pub">
+                <label for="transit"> Show transit directions</label><br>
+                <input type="checkbox" id="bikeshare" name="bikeshare" value="me_mic-s">
+                <label for="bikeshare"> Show bikeshare directions</label><br>
+                <input type="checkbox" id="walking" name="walking" value="wa_wal">
+                <label for="walking"> Show walking directions</label><br>
+                <input type="checkbox" id="rideshare" name="rideshare" value="ps_tax ps_tnc">
+                <label for="rideshare"> Show rideshare directions</label><br>
+                <input type="submit" value="Submit">
+              </form>
+            `;
+            p.innerHTML = form;
+            return p;
+          },
 
-        const popup = L.popup().setLatLng([lat, lng]).setContent(settings).openOn(map);
+          onRemove: function(map) {
+            // nothing to do here
+          }
+        });
+
+        L.control.settings = function(opts) {
+          return new L.Control.Settings(opts);
+        }
+
+        L.control.settings({ position: "topright" }).addTo(map);
     </script>
   </body>
 </html>
