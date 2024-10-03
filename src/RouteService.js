@@ -31,6 +31,7 @@ export const routeService = (function () {
                     L.tripgoRouting.mapLayer.getMessenger().hideMessage();
 
                 requirements --;
+                console.log(requirements);
                 if (L.tripgoRouting.has(result, 'groups')) {
                     try {
                         templatesCache = L.tripgoRouting.util.parseTemplates(result.segmentTemplates);
@@ -41,13 +42,13 @@ export const routeService = (function () {
                     catch (err) {
                         console.log("ERROR: " + err.message);
                     }
-                }else{
+                }//else{
                     // check if server gets results
                     if (requirements === 0 && !L.tripgoRouting.tripWidget.isVisible()) {
                         L.tripgoRouting.mapLayer.clearMarkers();
                         L.tripgoRouting.mapLayer.getMessenger().error("No routes found");
                     }
-                }
+                //}
             },
 
             error       : function(data){
@@ -99,11 +100,6 @@ export const routeService = (function () {
                     getRoutes(url, tripgoApiKey, requirements--);
                 });
                 getRoutes(getUrl(from, to, multimodal), tripgoApiKey, requirements--);
-
-                if (!L.tripgoRouting.tripWidget.isVisible()) {
-                    // what is wrong with this timeout?
-                    L.tripgoRouting.mapLayer.getMessenger().error("No routes found");
-                }
             }else{
                 console.error("Malformed coordinates");
             }

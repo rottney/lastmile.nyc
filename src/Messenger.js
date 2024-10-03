@@ -45,6 +45,5 @@ export class Messenger {
         setTimeout(function(){
             L.tripgoRouting.mapLayer.getMessenger().hideMessage();
         },closeAfterMillis);
-
     }
 }
