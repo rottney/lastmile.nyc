@@ -13,7 +13,8 @@ export const mapLayer = (function() {
 
     function setOSMTile() {
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            attribution: 'Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | ' + 
+                '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
     };
 
