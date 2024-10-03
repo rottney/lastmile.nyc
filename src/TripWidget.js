@@ -70,13 +70,25 @@ export const tripWidget = (function () {
 
         directions.push(direction);
         
-        tripDetails.appendChild(addButton());
+        tripDetails.appendChild(addButton(directions.length - 1));
         return tripDetails;
     }
 
-    function addButton() {
+    function getDirections(i) {
+        console.clear();
+        console.log(directions[i]);
+        //return directions[i];   //?
+    }
+
+    function eventListener(e) {
+        let id = e.target.id;
+        getDirections(id);
+    }
+
+    function addButton(i) {
         let btn = div("inline");
-        btn.innerHTML = '<button type="button" onclick="console.log( &quot made it here&quot)">Details</button>';
+        btn.innerHTML = '<button type="button" id="' + i + '">Details</button>';
+        btn.addEventListener("click", eventListener);
         return btn;
     }
 
@@ -182,11 +194,6 @@ export const tripWidget = (function () {
 
         isVisible: function () {
             return this.getWidget().style.display  === "block";
-        },
-
-        getDirections: function(i) {
-            console.log(directions);
-            return directions[i];
         }
     }
 })();
