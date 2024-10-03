@@ -61,7 +61,15 @@ export const tripWidget = (function () {
                 tripDetails.appendChild(segmentDetailsWidget(segment));
             }
         }
+        
+        tripDetails.appendChild(addButton());
         return tripDetails;
+    }
+
+    function addButton() {
+        let btn = div("inline");
+        btn.innerHTML = '<button type="button" onclick="console.log( &quot made it here&quot)">Details</button>';
+        return btn;
     }
 
     function segmentDetailsWidget(segment){
@@ -78,8 +86,6 @@ export const tripWidget = (function () {
                 segmentDetails.appendChild(htmlIcon);
             }
         }
-
-
 
         if(segment.modeIdentifier !== undefined){
             let  text = div("iconText");
