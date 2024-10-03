@@ -53,8 +53,6 @@ export const routeService = (function () {
                 }
                 L.tripgoRouting.mapLayer.getMessenger().hideMessage();
                 L.tripgoRouting.mapLayer.getMessenger().error("service-not-available, The routing service is currently not available, <br> please check your API key or try again later" );
-
-
             }
         });
     }

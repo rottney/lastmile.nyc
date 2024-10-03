@@ -1,5 +1,7 @@
 export const tripWidget = (function () {
 
+    let directions = [];
+
     function span(text, className){
         let span = L.DomUtil.create("span");
         span.className = className;
@@ -55,12 +57,18 @@ export const tripWidget = (function () {
 
     function tripDetailsWidget(trip){
         let tripDetails = div("tripDetails");
+        let direction = [];
         for(let i=0; i<trip.segments.length; i++){
             let segment = trip.segments[i];
+
+            direction.push(segment.modeInfo.alt + ((segment.serviceNumber === undefined) ? "" : " (" + segment.serviceNumber + ")") + " from " + segment.from.address + " to " + segment.to.address);
+
             if(segment.modeInfo.identifier !== undefined){
                 tripDetails.appendChild(segmentDetailsWidget(segment));
             }
         }
+
+        directions.push(direction);
         
         tripDetails.appendChild(addButton());
         return tripDetails;
@@ -174,6 +182,11 @@ export const tripWidget = (function () {
 
         isVisible: function () {
             return this.getWidget().style.display  === "block";
+        },
+
+        getDirections: function(i) {
+            console.log(directions);
+            return directions[i];
         }
     }
 })();
