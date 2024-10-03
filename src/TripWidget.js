@@ -55,13 +55,35 @@ export const tripWidget = (function () {
         return times;
     }
 
+    function parseSegment(segment) {
+        if (segment.from !== undefined) {
+            const mode = segment.modeInfo.alt;
+            const serviceNumber = (segment.serviceNumber === undefined) ? "" : segment.serviceNumber;
+            const from = segment.from.address;
+            const to = segment.to.address;
+
+            // add logic to structure sentence differently when taking a train / bus etc...
+            if (serviceNumber === "") {
+                return mode + " from " + from + " to " + to;
+            }
+            else {
+                return "Take the " + serviceNumber + " " + mode.toLowerCase() + " from " + from + " to " + to;
+            }
+        }
+        else {
+            return "";
+        }
+    }
+
     function tripDetailsWidget(trip){
         let tripDetails = div("tripDetails");
         let direction = [];
         for(let i=0; i<trip.segments.length; i++){
             let segment = trip.segments[i];
 
-            direction.push(segment.modeInfo.alt + ((segment.serviceNumber === undefined) ? "" : " (" + segment.serviceNumber + ")") + " from " + segment.from.address + " to " + segment.to.address);
+            if (parseSegment(segment) !== "") {
+                direction.push(parseSegment(segment));
+            }
 
             if(segment.modeInfo.identifier !== undefined){
                 tripDetails.appendChild(segmentDetailsWidget(segment));
