@@ -83,6 +83,8 @@
         map.addControl(destination);
 
         // Custom code
+
+        // Add settings form
         L.Control.Settings = L.Control.extend({
           onAdd: function(map) {
             const p = L.DomUtil.create("div");
@@ -93,14 +95,14 @@
                 target="_blank" 
                 style="background-color: coral; padding: 12px;"
               >
-                <input type="checkbox" id="transit" name="transit" value="pt_pub">
-                <label for="transit"> Show transit directions</label><br>
-                <input type="checkbox" id="bikeshare" name="bikeshare" value="me_mic-s">
-                <label for="bikeshare"> Show bikeshare directions</label><br>
-                <input type="checkbox" id="walking" name="walking" value="wa_wal">
-                <label for="walking"> Show walking directions</label><br>
-                <input type="checkbox" id="rideshare" name="rideshare" value="ps_tax ps_tnc">
-                <label for="rideshare"> Show rideshare directions</label><br>
+                <input type="checkbox" id="transitbox" name="transit" value="pt_pub">
+                <label for="transitbox"> Show transit directions</label><br>
+                <input type="checkbox" id="bikesharebox" name="bikeshare" value="me_mic-s">
+                <label for="bikesharebox"> Show bikeshare directions</label><br>
+                <input type="checkbox" id="walkingbox" name="walking" value="wa_wal">
+                <label for="walkingbox"> Show walking directions</label><br>
+                <input type="checkbox" id="ridesharebox" name="rideshare" value="ps_tax ps_tnc">
+                <label for="ridesharebox"> Show rideshare directions</label><br>
                 <input type="submit" value="Submit">
               </form>
             `;
@@ -118,6 +120,23 @@
         }
 
         L.control.settings({ position: "topright" }).addTo(map);
+
+        // Sync form state with settings database
+        function setSettings(settings) {
+            const transitbox = document.getElementById("transitbox");
+            const bikesharebox = document.getElementById("bikesharebox");
+            const walkingbox = document.getElementById("walkingbox");
+            const ridesharebox = document.getElementById("ridesharebox");
+
+            transitbox.checked = settings.includes("pt_pub");
+            bikesharebox.checked = settings.includes("me_mic-s");
+            walkingbox.checked = settings.includes("wa_wal");
+            ridesharebox.checked = settings.includes("ps_tax") && settings.includes("ps_tnc");
+        }
+
+        fetch("http://localhost:5000/getmodes")
+            .then((response) => response.json())
+            .then((json) => setSettings(json));
     </script>
   </body>
 </html>
