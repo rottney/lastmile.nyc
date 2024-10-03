@@ -32,10 +32,16 @@ export const routeService = (function () {
 
                 requirements --;
                 if (L.tripgoRouting.has(result, 'groups')) {
-                    templatesCache = L.tripgoRouting.util.parseTemplates(result.segmentTemplates);
-                    let trips = L.tripgoRouting.util.parseTrips(result.groups);
-                    L.tripgoRouting.tripWidget.initialize();
-                    success(trips);
+                    try {
+                        templatesCache = L.tripgoRouting.util.parseTemplates(result.segmentTemplates);
+                        let trips = L.tripgoRouting.util.parseTrips(result.groups);
+                        L.tripgoRouting.tripWidget.initialize();
+                        success(trips);
+                    }
+                    catch (err) {
+                        console.log("ERROR: " + err.message);
+                        L.tripgoRouting.mapLayer.getMessenger().error("No routes found");
+                    }
                 }else{
                     // check if server gets results
                     if (requirements === 0 && !L.tripgoRouting.tripWidget.isVisible()) {
