@@ -113,8 +113,13 @@ export const mapLayer = (function() {
                     modes.push("ps_tax");
                     modes.push("ps_tnc")
                 }
-
-                L.tripgoRouting.routeService.route(tripgoApiKey, from, to, modes);
+                
+                if (modes.length === 0) {
+                    this.getMessenger().info("No modes specified");
+                }
+                else {
+                    L.tripgoRouting.routeService.route(tripgoApiKey, from, to, modes);
+                }
             }
         },
 
