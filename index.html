@@ -88,25 +88,16 @@
         L.Control.Settings = L.Control.extend({
           onAdd: function(map) {
             const p = L.DomUtil.create("div");
-            const form = `
-              <form 
-                action="http://localhost:5000/setmodes" 
-                method="post" 
-                target="_blank" 
-                style="background-color: coral; padding: 12px;"
-              >
-                <input type="checkbox" id="transitbox" name="transit" value="pt_pub">
-                <label for="transitbox"> Show transit directions</label><br>
-                <input type="checkbox" id="bikesharebox" name="bikeshare" value="me_mic-s">
-                <label for="bikesharebox"> Show bikeshare directions</label><br>
-                <input type="checkbox" id="walkingbox" name="walking" value="wa_wal">
-                <label for="walkingbox"> Show walking directions</label><br>
-                <input type="checkbox" id="ridesharebox" name="rideshare" value="ps_tax ps_tnc">
-                <label for="ridesharebox"> Show rideshare directions</label><br>
-                <input type="submit" value="Submit">
-              </form>
+
+            const checkboxes = `
+              <input type="checkbox" id="transitbox" onclick="populateStorage('transit')"> Show transit directions<br>
+              <input type="checkbox" id="bikesharebox" onclick="populateStorage('bikeshare')"> Show bikeshare directions<br>
+              <input type="checkbox" id="walkingbox" onclick="populateStorage('walking')"> Show walking directions<br>
+              <input type="checkbox" id="ridesharebox" onclick="populateStorage('rideshare')"> Show rideshare directions<br>
             `;
-            p.innerHTML = form;
+
+            p.style = "background-color: coral; padding: 12px;";
+            p.innerHTML = checkboxes;
             return p;
           },
 
@@ -121,22 +112,27 @@
 
         L.control.settings({ position: "topright" }).addTo(map);
 
-        // Sync form state with settings database
-        function setSettings(settings) {
+        loadSettings();
+
+        // Sync form state with local storage
+        function loadSettings(settings) {
             const transitbox = document.getElementById("transitbox");
             const bikesharebox = document.getElementById("bikesharebox");
             const walkingbox = document.getElementById("walkingbox");
             const ridesharebox = document.getElementById("ridesharebox");
 
-            transitbox.checked = settings.includes("pt_pub");
-            bikesharebox.checked = settings.includes("me_mic-s");
-            walkingbox.checked = settings.includes("wa_wal");
-            ridesharebox.checked = settings.includes("ps_tax") && settings.includes("ps_tnc");
+            transitbox.checked = localStorage.getItem("transit") === "true";
+            bikesharebox.checked = localStorage.getItem("bikeshare") === "true";
+            walkingbox.checked = localStorage.getItem("walking") === "true";
+            ridesharebox.checked = localStorage.getItem("rideshare") === "true";
         }
 
-        fetch("http://localhost:5000/getmodes")
-            .then((response) => response.json())
-            .then((json) => setSettings(json));
+    </script>
+    <script>
+        function populateStorage(setting) {
+          const checkbox = document.getElementById(setting + "box");
+          localStorage.setItem(setting, checkbox.checked);
+        }
     </script>
   </body>
 </html>

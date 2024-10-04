@@ -62,7 +62,6 @@ export const tripWidget = (function () {
             const from = segment.from.address;
             const to = segment.to.address;
 
-            // add logic to structure sentence differently when taking a train / bus etc...
             if (serviceNumber === "") {
                 return mode + " from " + from + " to " + to;
             }

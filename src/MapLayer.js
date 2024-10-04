@@ -99,9 +99,22 @@ export const mapLayer = (function() {
                 let from = stops.from.getLatLng();
                 let to = stops.to.getLatLng();
 
-                fetch("http://localhost:5000/getmodes")
-                    .then((response) => response.json())
-                    .then((json) => L.tripgoRouting.routeService.route(tripgoApiKey, from, to, json));
+                let modes = [];
+                if (localStorage.getItem("transit") !== null && localStorage.getItem("transit") === "true") {
+                    modes.push("pt_pub");
+                }
+                if (localStorage.getItem("bikeshare") !== null && localStorage.getItem("bikeshare") === "true") {
+                    modes.push("me_mic-s");
+                }
+                if (localStorage.getItem("walking") !== null && localStorage.getItem("walking") === "true") {
+                    modes.push("wa_wal");
+                }
+                if (localStorage.getItem("rideshare") !== null && localStorage.getItem("rideshare") === "true") {
+                    modes.push("ps_tax");
+                    modes.push("ps_tnc")
+                }
+
+                L.tripgoRouting.routeService.route(tripgoApiKey, from, to, modes);
             }
         },
 
