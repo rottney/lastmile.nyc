@@ -89,15 +89,19 @@
           onAdd: function(map) {
             const p = L.DomUtil.create("div");
 
+            const settingsBtn = `<input type="image" src="resources/settings/settings.png" width="16" height="16" style="float: right;" onclick="toggleSettingsDisplay()"><br>`
+
             const checkboxes = `
-              <input type="checkbox" id="transitbox" onclick="populateStorage('transit')"> Show transit directions<br>
-              <input type="checkbox" id="bikesharebox" onclick="populateStorage('bikeshare')"> Show bikeshare directions<br>
-              <input type="checkbox" id="walkingbox" onclick="populateStorage('walking')"> Show walking directions<br>
-              <input type="checkbox" id="ridesharebox" onclick="populateStorage('rideshare')"> Show rideshare directions<br>
+              <div id="settings">
+                <input type="checkbox" id="transitbox" onclick="populateStorage('transit')"> Show transit directions<br>
+                <input type="checkbox" id="bikesharebox" onclick="populateStorage('bikeshare')"> Show bikeshare directions<br>
+                <input type="checkbox" id="walkingbox" onclick="populateStorage('walking')"> Show walking directions<br>
+                <input type="checkbox" id="ridesharebox" onclick="populateStorage('rideshare')"> Show rideshare directions<br>
+              </div>
             `;
 
             p.style = "background-color: coral; padding: 12px;";
-            p.innerHTML = checkboxes;
+            p.innerHTML = settingsBtn + checkboxes;
             return p;
           },
 
@@ -132,6 +136,16 @@
         function populateStorage(setting) {
           const checkbox = document.getElementById(setting + "box");
           localStorage.setItem(setting, checkbox.checked);
+        }
+
+        function toggleSettingsDisplay() {
+          const settings = document.getElementById("settings");
+          if (settings.style.display === "none") {
+            settings.style.display = "inline";  // or block?
+          }
+          else {
+            settings.style.display = "none";
+          }
         }
     </script>
   </body>
