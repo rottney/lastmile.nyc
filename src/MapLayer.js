@@ -84,7 +84,8 @@ export const mapLayer = (function() {
                 map.removeLayer(stops[where]);
             }
 
-            let iconUrl = "resources/map/map-pin-"+where+".svg" ;
+            let iconUrl = "resources/map/flag-"+where+".png" ;
+
             let icon = L.icon({iconUrl: iconUrl, iconSize: [33, 37], iconAnchor: [16, 37]});
             let marker = L.marker();
             marker
