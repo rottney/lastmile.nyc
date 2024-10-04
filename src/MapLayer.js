@@ -118,6 +118,7 @@ export const mapLayer = (function() {
                     this.getMessenger().info("No modes specified");
                 }
                 else {
+                    L.tripgoRouting.tripWidget.clearWidget();
                     L.tripgoRouting.routeService.route(tripgoApiKey, from, to, modes);
                 }
             }

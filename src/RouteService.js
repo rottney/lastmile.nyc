@@ -20,7 +20,6 @@ export const routeService = (function () {
     }
 
     function getRoutes(url, apiKey, requirements) {
-        console.log(url);
         // make the request to SkedGo backend
         $.ajax({
             url         : url,

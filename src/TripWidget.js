@@ -228,6 +228,13 @@ export const tripWidget = (function () {
 
         isVisible: function () {
             return this.getWidget().style.display  === "block";
-        }
+        },
+
+        clearWidget: function () {
+            const widget = document.getElementById("selectorPanel");
+            while (widget.firstChild) {
+                widget.removeChild(widget.firstChild);
+            }
+        },
     }
 })();
