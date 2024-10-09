@@ -98,7 +98,6 @@ export const mapLayer = (function() {
         },
 
         createMarker : function(where, lat, lng){
-            map.closePopup();
             let latlng = L.latLng(lat, lng);
             if(stops[where] !== undefined) {
                 map.removeLayer(stops[where]);
@@ -117,6 +116,12 @@ export const mapLayer = (function() {
             stops[where] = marker;
 
             if(stops.from !== undefined && stops.to !== undefined){
+                L.tripgoRouting.tripWidget.clearWidget();
+
+                if (L.tripgoRouting.mapLayer.getTripDisplaying() !== null) {
+                    L.tripgoRouting.mapLayer.getTripDisplaying().removeFromMap(map);
+                }
+
                 let from = stops.from.getLatLng();
                 let to = stops.to.getLatLng();
 
@@ -126,7 +131,6 @@ export const mapLayer = (function() {
                     this.getMessenger().info("No modes specified");
                 }
                 else {
-                    L.tripgoRouting.tripWidget.clearWidget();
                     L.tripgoRouting.routeService.route(tripgoApiKey, from, to, modes);
                 }
             }
@@ -142,7 +146,6 @@ export const mapLayer = (function() {
                 map.removeLayer(stops.to);
                 stops = [];
             }
-
         },
 
         showingTrip : function () {
