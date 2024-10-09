@@ -18,6 +18,26 @@ export const mapLayer = (function() {
         }).addTo(map);
     };
 
+    function setModes() {
+        let modes = [];
+
+        if (localStorage.getItem("transit") !== null && localStorage.getItem("transit") === "true") {
+            modes.push("pt_pub");
+        }
+        if (localStorage.getItem("bikeshare") !== null && localStorage.getItem("bikeshare") === "true") {
+            modes.push("me_mic-s");
+        }
+        if (localStorage.getItem("walking") !== null && localStorage.getItem("walking") === "true") {
+            modes.push("wa_wal");
+        }
+        if (localStorage.getItem("rideshare") !== null && localStorage.getItem("rideshare") === "true") {
+            modes.push("ps_tax");
+            modes.push("ps_tnc")
+        }
+
+        return modes;
+    };
+
 
     return {
         initialize : function(options){
@@ -100,20 +120,7 @@ export const mapLayer = (function() {
                 let from = stops.from.getLatLng();
                 let to = stops.to.getLatLng();
 
-                let modes = [];
-                if (localStorage.getItem("transit") !== null && localStorage.getItem("transit") === "true") {
-                    modes.push("pt_pub");
-                }
-                if (localStorage.getItem("bikeshare") !== null && localStorage.getItem("bikeshare") === "true") {
-                    modes.push("me_mic-s");
-                }
-                if (localStorage.getItem("walking") !== null && localStorage.getItem("walking") === "true") {
-                    modes.push("wa_wal");
-                }
-                if (localStorage.getItem("rideshare") !== null && localStorage.getItem("rideshare") === "true") {
-                    modes.push("ps_tax");
-                    modes.push("ps_tnc")
-                }
+                const modes = setModes();
                 
                 if (modes.length === 0) {
                     this.getMessenger().info("No modes specified");

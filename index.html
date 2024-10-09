@@ -100,8 +100,13 @@
               </div>
             `;
 
+            // doesn't do anything yet
+            const walkingThreshold = `
+              <input type="text" size="2"> Walking threshold
+            `;
+
             p.style = "background-color: coral; padding: 12px;";
-            p.innerHTML = settingsBtn + checkboxes;
+            p.innerHTML = settingsBtn + checkboxes + "<hr>" + walkingThreshold;
             return p;
           },
 
@@ -141,11 +146,15 @@
         function toggleSettingsDisplay() {
           const settings = document.getElementById("settings");
           if (settings.style.display === "none") {
-            settings.style.display = "inline";  // or block?
+            settings.style.display = "inline";
           }
           else {
             settings.style.display = "none";
           }
+        }
+
+        function setWalkingThreshold(walkingThreshold) {
+          
         }
     </script>
   </body>
