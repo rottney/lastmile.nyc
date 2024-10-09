@@ -34,6 +34,15 @@
         import { util } from "./src/Util.js";
         import { tripWidget } from "./src/TripWidget.js";
 
+        // Get CitiBike data
+        const stationInfoResponse = await fetch("https://gbfs.lyft.com/gbfs/2.3/bkn/en/station_information.json");
+        const stationInfoJson = await stationInfoResponse.json();
+        const stations = stationInfoJson.data.stations;
+
+        const stationStatusResponse = await fetch("https://gbfs.lyft.com/gbfs/2.3/bkn/en/station_status.json");
+        const stationStatusJson = await stationStatusResponse.json();
+        const statuses = stationStatusJson.data.stations;
+
         // center of nyc
         const lat = 40.6971041913;
         const lng = -73.9795382135;
@@ -66,7 +75,7 @@
           resultCallback: (address) => {
             const lat = address.lat;
             const lng = address.lon;
-            mapLayer.createMarker("from", lat, lng);
+            mapLayer.createMarker("from", lat, lng, stations, statuses);
           },
         });
         map.addControl(origin);
@@ -77,7 +86,7 @@
           resultCallback: (address) => {
             const lat = address.lat;
             const lng = address.lon;
-            mapLayer.createMarker("to", lat, lng);
+            mapLayer.createMarker("to", lat, lng, stations, statuses);
           },
         });
         map.addControl(destination);

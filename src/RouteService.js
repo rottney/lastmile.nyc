@@ -56,16 +56,7 @@ export const routeService = (function () {
         return closestStation;
     }
 
-    async function bikeshareRoutes(from, to) {
-        console.log("using bikeshare routing");
-        const stationInfoResponse = await fetch("https://gbfs.lyft.com/gbfs/2.3/bkn/en/station_information.json");
-        const stationInfoJson = await stationInfoResponse.json();
-        const stations = stationInfoJson.data.stations;
-
-        const stationStatusResponse = await fetch("https://gbfs.lyft.com/gbfs/2.3/bkn/en/station_status.json");
-        const stationStatusJson = await stationStatusResponse.json();
-        const statuses = stationStatusJson.data.stations;
-
+    function bikeshareRoutes(from, to, stations, statuses) {
         const fromStation = findClosestStation(stations, statuses, from, "from");
         const toStation = findClosestStation(stations, statuses, to, "to");
 
@@ -73,7 +64,6 @@ export const routeService = (function () {
     }
 
     function getRoutes(url, apiKey, requirements) {
-        console.log(url);
         // make the request to SkedGo backend
         $.ajax({
             url         : url,
@@ -142,20 +132,24 @@ export const routeService = (function () {
         *       from: leaflet latlng
         *       to: leaflet latlng
         * */
-        route : function(tripgoApiKey, from, to, transportModes){
+        route : function(tripgoApiKey, from, to, transportModes, stations, statuses){
             let requirements = transportModes.length + 1;
             if(L.tripgoRouting.validLatLng(from) && L.tripgoRouting.validLatLng(to)){
                 L.tripgoRouting.mapLayer.getMessenger().info("getting routes form SkedGo server ...");
                 let multimodal =  "";
-                transportModes.forEach(async function (mode) {
+                transportModes.forEach(function (mode) {
                     //if (mode === "me_mic-s") {
                     if (mode === "me_mic_bic") {
-                        const fromTo = await bikeshareRoutes(from, to);
-                        console.log(fromTo);
+                        const fromTo = bikeshareRoutes(from, to, stations, statuses);
                         const fromStation = fromTo[0];
                         const toStation = fromTo[1];
-                        from = L.latLng(fromStation.lat, fromStation.lon);
-                        to = L.latLng(toStation.lat, toStation.lon);
+                        // API requires all lat and lngs have same # of sig digits
+                        const fromLat = Number(fromStation.lat.toPrecision(9));
+                        const fromLng = Number(fromStation.lon.toPrecision(9));
+                        const toLat = Number(toStation.lat.toPrecision(9));
+                        const toLng = Number(toStation.lon.toPrecision(9));
+                        from = L.latLng(fromLat, fromLng);
+                        to = L.latLng(toLat, toLng);
                         // use bicycle icon...
                         L.marker(from).addTo(L.tripgoRouting.mapLayer.getMap());
                         L.marker(to).addTo(L.tripgoRouting.mapLayer.getMap());

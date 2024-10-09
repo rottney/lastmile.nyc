@@ -98,7 +98,7 @@ export const mapLayer = (function() {
             return messenger;
         },
 
-        createMarker : function(where, lat, lng){
+        createMarker : function(where, lat, lng, stations, statuses){
             let latlng = L.latLng(lat, lng);
             if(stops[where] !== undefined) {
                 map.removeLayer(stops[where]);
@@ -132,7 +132,7 @@ export const mapLayer = (function() {
                     this.getMessenger().info("No modes specified");
                 }
                 else {
-                    L.tripgoRouting.routeService.route(tripgoApiKey, from, to, modes);
+                    L.tripgoRouting.routeService.route(tripgoApiKey, from, to, modes, stations, statuses);
                 }
             }
         },
