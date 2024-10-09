@@ -19,7 +19,61 @@ export const routeService = (function () {
         return routeUrl;
     }
 
+    function getDistance(lat, lng, currLat, currLng) {
+        return Math.abs(lat - currLat) + Math.abs(lng - currLng);
+    }
+
+    // find closest citi bike station with open bikes or docks
+    function findClosestStation(stations, statuses, latLng, fromOrTo) {
+        const lat = latLng.lat;
+        const lng = latLng.lng;
+        
+        let closestStation = stations[0];
+        let minDistance = 1000; // initialize to high value
+
+        for (let station of stations) {
+            const currLat = station.lat;
+            const currLng = station.lon;
+
+            const currDistance = getDistance(lat, lng, currLat, currLng);
+
+            if (currDistance < minDistance) {
+                const stationId = station.station_id;
+                const myStation = statuses.filter((el) => el.station_id === stationId)[0];
+                
+                // check station status... make sure there are bikes/docks available
+                if (fromOrTo === "from" && myStation.num_bikes_available > 0) {
+                    minDistance = currDistance;
+                    closestStation = station;
+                }
+                if (fromOrTo === "to" && myStation.num_docks_available > 0) {
+                    minDistance = currDistance;
+                    closestStation = station;
+                }
+            }
+        }
+
+        return closestStation;
+    }
+
+    async function bikeshareRoutes(from, to) {
+        console.log("using bikeshare routing");
+        const stationInfoResponse = await fetch("https://gbfs.lyft.com/gbfs/2.3/bkn/en/station_information.json");
+        const stationInfoJson = await stationInfoResponse.json();
+        const stations = stationInfoJson.data.stations;
+
+        const stationStatusResponse = await fetch("https://gbfs.lyft.com/gbfs/2.3/bkn/en/station_status.json");
+        const stationStatusJson = await stationStatusResponse.json();
+        const statuses = stationStatusJson.data.stations;
+
+        const fromStation = findClosestStation(stations, statuses, from, "from");
+        const toStation = findClosestStation(stations, statuses, to, "to");
+
+        return [fromStation, toStation];
+    }
+
     function getRoutes(url, apiKey, requirements) {
+        console.log(url);
         // make the request to SkedGo backend
         $.ajax({
             url         : url,
@@ -93,7 +147,19 @@ export const routeService = (function () {
             if(L.tripgoRouting.validLatLng(from) && L.tripgoRouting.validLatLng(to)){
                 L.tripgoRouting.mapLayer.getMessenger().info("getting routes form SkedGo server ...");
                 let multimodal =  "";
-                transportModes.forEach(function (mode) {
+                transportModes.forEach(async function (mode) {
+                    //if (mode === "me_mic-s") {
+                    if (mode === "me_mic_bic") {
+                        const fromTo = await bikeshareRoutes(from, to);
+                        console.log(fromTo);
+                        const fromStation = fromTo[0];
+                        const toStation = fromTo[1];
+                        from = L.latLng(fromStation.lat, fromStation.lon);
+                        to = L.latLng(toStation.lat, toStation.lon);
+                        // use bicycle icon...
+                        L.marker(from).addTo(L.tripgoRouting.mapLayer.getMap());
+                        L.marker(to).addTo(L.tripgoRouting.mapLayer.getMap());
+                    }
                     let url = getUrl(from, to, "&modes="+mode);
 
                     multimodal = multimodal + "&modes=" + mode;

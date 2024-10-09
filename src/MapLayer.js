@@ -25,7 +25,8 @@ export const mapLayer = (function() {
             modes.push("pt_pub");
         }
         if (localStorage.getItem("bikeshare") !== null && localStorage.getItem("bikeshare") === "true") {
-            modes.push("me_mic-s");
+            //modes.push("me_mic-s");
+            modes.push("me_mic_bic");
         }
         if (localStorage.getItem("walking") !== null && localStorage.getItem("walking") === "true") {
             modes.push("wa_wal");
