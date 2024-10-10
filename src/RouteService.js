@@ -118,6 +118,10 @@ export const routeService = (function () {
     };
 
     return {
+        resetGlobali : function() {
+            globali = 0;
+        },
+
         /*
         * Param: hashCode, value which is provided from server. It identifies a template.
         * Return: trip template.

@@ -180,27 +180,13 @@ export const tripWidget = (function () {
         moreData.innerHTML = moneyCost  + carbonCost +  caloriesCost;
         return moreData;
     }
-
-    function clearBtn() {
-        let btn = div('addressSelector clearBtn');
-        btn.innerHTML = "Clear Map";
-        L.DomEvent.on(btn, "click", function() {
-            L.tripgoRouting.mapLayer.clearMap();
-        });
-
-        let box = div("");
-        box.style.width = "inherit";
-        box.style.marginBottom = "12%";
-        box.appendChild(btn);
-        return box;
-    }
+    
 
     return {
         initialize : function(){
             if(! this.isVisible()) {
                 this.getWidget().style.display = "block";
                 this.getWidget().style.height = window.innerHeight;
-                this.getWidget().appendChild(clearBtn());
 
                 L.tripgoRouting.mapLayer.mapResize(window.innerWidth - this.getWidth(), L.tripgoRouting.mapLayer.height);
             }
