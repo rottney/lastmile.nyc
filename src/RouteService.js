@@ -72,6 +72,9 @@ export const routeService = (function () {
                 xhr.setRequestHeader('X-TripGo-Key', apiKey);
             },
             success     : function(result) {
+                if (result.error !== undefined) {
+                    L.tripgoRouting.mapLayer.getMessenger().info(result.error);
+                }
                 if(requirements <= 1)
                     L.tripgoRouting.mapLayer.getMessenger().hideMessage();
 
@@ -134,6 +137,7 @@ export const routeService = (function () {
 
         if (belowThreshold === true) {
             result.forEach(function(element) {
+                //console.log(element)
                 L.tripgoRouting.tripWidget.addTrip(element, "trip" + globali);
                 globali++;
             });
