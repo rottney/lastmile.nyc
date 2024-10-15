@@ -180,7 +180,7 @@ export const tripWidget = (function () {
         moreData.innerHTML = moneyCost  + carbonCost +  caloriesCost;
         return moreData;
     }
-    
+
 
     return {
         initialize : function(){
@@ -217,6 +217,7 @@ export const tripWidget = (function () {
         },
 
         clearWidget: function () {
+            directions = [];
             const widget = document.getElementById("selectorPanel");
             while (widget.firstChild) {
                 widget.removeChild(widget.firstChild);

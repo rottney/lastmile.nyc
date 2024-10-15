@@ -108,7 +108,6 @@ export const routeService = (function () {
     }
 
     function success(result) {
-        //let i=0;
         result.forEach(function(element) {
             L.tripgoRouting.tripWidget.addTrip(element, "trip" + globali);
             globali++;
@@ -163,7 +162,9 @@ export const routeService = (function () {
                     multimodal = multimodal + "&modes=" + mode;
                     getRoutes(url, tripgoApiKey, requirements--);
                 });
-                getRoutes(getUrl(from, to, multimodal), tripgoApiKey, requirements--);
+                if (transportModes.length > 1) {
+                    getRoutes(getUrl(from, to, multimodal), tripgoApiKey, requirements--);
+                }
             }else{
                 console.error("Malformed coordinates");
             }
