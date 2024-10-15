@@ -137,7 +137,6 @@ export const routeService = (function () {
 
         if (belowThreshold === true) {
             result.forEach(function(element) {
-                //console.log(element)
                 L.tripgoRouting.tripWidget.addTrip(element, "trip" + globali);
                 globali++;
             });

@@ -2,6 +2,37 @@ export const tripWidget = (function () {
 
     let directions = [];
 
+    const lirrLines = [
+        "Babylon Branch",
+        "City Terminal Zone",
+        "Far Rockaway Branch",
+        "Hempstead Branch",
+        "Long Beach Branch",
+        "Montauk Branch",
+        "Oyster Bay Branch",
+        "Port Jefferson Branch",
+        "Port Washington Branch",
+        "Ronkonkoma Branch",
+        "West Hempstead Branch",
+    ];
+
+    const metroNorthLines = [
+        "Harlem",
+        "Hudson",
+        "New Haven",
+    ];
+
+    const njTransitLines = [
+        
+    ];
+
+    const amtrakLines = [
+        "Acela",
+        "Keystone Service",
+        "Northeast Regional",
+    ];
+
+
     function span(text, className){
         let span = L.DomUtil.create("span");
         span.className = className;
@@ -55,10 +86,24 @@ export const tripWidget = (function () {
         return times;
     }
 
+    function getServiceName(segment) {
+        if (segment.serviceNumber !== undefined)
+            return segment.serviceNumber;
+        else if (lirrLines.includes(segment.serviceName))
+            return "LIRR";
+        else if (metroNorthLines.includes(segment.serviceName))
+            return "Metro North";
+        else if (njTransitLines.includes(segment.serviceName))
+            return "NJ Transit";
+        else if (amtrakLines.includes(segment.serviceName))
+            return "Amtrak";
+        else return ""; // must not be public transit
+    }
+
     function parseSegment(segment) {
         if (segment.from !== undefined) {
             const mode = segment.modeInfo.alt;
-            const serviceNumber = (segment.serviceNumber === undefined) ? "" : segment.serviceNumber;
+            const serviceNumber = getServiceName(segment);
             const from = (segment.from.address === undefined) ? segment.from.lat + ", " + segment.from.lng : segment.from.address;
             const to = (segment.to.address === undefined) ? segment.to.lat + ", " + segment.to.lng : segment.to.address;
 
@@ -142,9 +187,12 @@ export const tripWidget = (function () {
         }
 
         if(segment.modeIdentifier !== undefined){
-            let  text = div("iconText");
-            if(segment.modeIdentifier === "pt_pub")
-                text.innerHTML = "<span style='color:black;'>" + segment.serviceNumber + "</span>" + "<br>" + L.tripgoRouting.util.getTime(segment.startTime);
+            let text = div("iconText");
+            if(segment.modeIdentifier === "pt_pub") {
+                const service = getServiceName(segment);
+                //text.innerHTML = "<span style='color:black;'>" + segment.serviceNumber + "</span>" + "<br>" + L.tripgoRouting.util.getTime(segment.startTime);
+                text.innerHTML = "<span style='color:black;'>" + service + "</span>" + "<br>" + L.tripgoRouting.util.getTime(segment.startTime);
+            }
             else{
                 if(segment.getDistanceString !== undefined)
                     text.innerHTML = segment.getDistanceString;

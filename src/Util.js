@@ -21,7 +21,6 @@ export const util = (function () {
              return segmentTemplates;
          },
 
-
          parseTrips : function (json) {
              let parsedTrips = [];
              for(let i = 0; i<json.length; i++){
@@ -57,7 +56,6 @@ export const util = (function () {
                 else
                     return undefined;
              }
-
          },
 
          getTime : function(long){
@@ -72,5 +70,4 @@ export const util = (function () {
              return  hs + ":" + min
          }
      }
-
 })();
