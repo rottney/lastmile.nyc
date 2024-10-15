@@ -107,7 +107,8 @@
                 <input type="checkbox" id="walkingbox" onclick="populateStorage('walking')"> Show walking directions<br>
                 <input type="checkbox" id="ridesharebox" onclick="populateStorage('rideshare')"> Show rideshare directions<br>
                 <hr>
-                <input type="text" size="2"> Walking threshold
+                <input type="text" id="walkingthreshold" size="2"> Walking threshold (meters)<br>
+                <button type="button" id="setwalkingthreshold" onclick="setWalkingThreshold()">Set</button>
               </div>
             `;
 
@@ -142,7 +143,7 @@
             ridesharebox.checked = localStorage.getItem("rideshare") === "true";
         }
     </script>
-    
+
     <script>
         function populateStorage(setting) {
           const checkbox = document.getElementById(setting + "box");
@@ -159,8 +160,20 @@
           }
         }
 
-        function setWalkingThreshold(walkingThreshold) {
-          
+        function setWalkingThreshold() {
+          const walkingThreshold = document.getElementById("walkingthreshold").value;
+          const swtBtn = document.getElementById("setwalkingthreshold");
+
+          if (swtBtn.innerHTML === "Set") {
+            localStorage.setItem("walkingThreshold", walkingThreshold);
+            swtBtn.innerHTML = "Unset";
+          }
+          else {
+            localStorage.removeItem("walkingThreshold");
+            swtBtn.innerHTML = "Set";
+          }
+
+          console.log("walking threshold: " + localStorage.getItem("walkingThreshold"));
         }
     </script>
   </body>
