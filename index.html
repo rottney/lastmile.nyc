@@ -73,9 +73,11 @@
           position: "topleft",
           placeholder: "Origin",
           resultCallback: (address) => {
-            const lat = address.lat;
-            const lng = address.lon;
-            mapLayer.createMarker("from", lat, lng, stations, statuses);
+            if (address !== null) {
+              const lat = address.lat;
+              const lng = address.lon;
+              mapLayer.createMarker("from", lat, lng, stations, statuses);
+            }
           },
         });
         map.addControl(origin);
@@ -84,9 +86,11 @@
           position: "topleft",
           placeholder: "Destination",
           resultCallback: (address) => {
-            const lat = address.lat;
-            const lng = address.lon;
-            mapLayer.createMarker("to", lat, lng, stations, statuses);
+            if (address !== null) {
+              const lat = address.lat;
+              const lng = address.lon;
+              mapLayer.createMarker("to", lat, lng, stations, statuses);
+            }
           },
         });
         map.addControl(destination);
