@@ -136,11 +136,18 @@
             const bikesharebox = document.getElementById("bikesharebox");
             const walkingbox = document.getElementById("walkingbox");
             const ridesharebox = document.getElementById("ridesharebox");
+            const walkingthreshold = document.getElementById("walkingthreshold");
 
             transitbox.checked = localStorage.getItem("transit") === "true";
             bikesharebox.checked = localStorage.getItem("bikeshare") === "true";
             walkingbox.checked = localStorage.getItem("walking") === "true";
             ridesharebox.checked = localStorage.getItem("rideshare") === "true";
+
+            if (localStorage.getItem("walkingThreshold") !== null) {
+              walkingthreshold.value = localStorage.getItem("walkingThreshold");
+              const swtBtn = document.getElementById("setwalkingthreshold");
+              swtBtn.innerHTML = "Unset";
+            }
         }
     </script>
 
@@ -172,8 +179,6 @@
             localStorage.removeItem("walkingThreshold");
             swtBtn.innerHTML = "Set";
           }
-
-          console.log("walking threshold: " + localStorage.getItem("walkingThreshold"));
         }
     </script>
   </body>

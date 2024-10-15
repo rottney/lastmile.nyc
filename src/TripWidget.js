@@ -56,7 +56,6 @@ export const tripWidget = (function () {
     }
 
     function parseSegment(segment) {
-        console.log(segment);
         if (segment.from !== undefined) {
             const mode = segment.modeInfo.alt;
             const serviceNumber = (segment.serviceNumber === undefined) ? "" : segment.serviceNumber;

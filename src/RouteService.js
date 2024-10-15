@@ -107,13 +107,39 @@ export const routeService = (function () {
         });
     }
 
+    function isBelowThreshold(result) {
+        const walkingThreshold = localStorage.getItem("walkingThreshold");
+        let totalWalking = 0;
+
+        for (let part of result) {
+            for (let segment of part.segments) {
+                if (segment.modeIdentifier === "wa_wal") {
+                    totalWalking += segment.meters;
+                }
+            }
+        }
+
+        if (totalWalking > walkingThreshold) {
+            return false;
+        }
+        return true;
+    }
+
     function success(result) {
-        result.forEach(function(element) {
-            L.tripgoRouting.tripWidget.addTrip(element, "trip" + globali);
-            globali++;
-        });
-        if(!L.tripgoRouting.mapLayer.showingTrip())
-            result[0].drawTrip(L.tripgoRouting.mapLayer.getMap());
+        let belowThreshold = true;
+
+        if (localStorage.getItem("walkingThreshold") !== null) {
+            belowThreshold = isBelowThreshold(result);
+        }
+
+        if (belowThreshold === true) {
+            result.forEach(function(element) {
+                L.tripgoRouting.tripWidget.addTrip(element, "trip" + globali);
+                globali++;
+            });
+            if(!L.tripgoRouting.mapLayer.showingTrip())
+                result[0].drawTrip(L.tripgoRouting.mapLayer.getMap());
+        }
     };
 
     return {
