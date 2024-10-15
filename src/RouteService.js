@@ -194,6 +194,11 @@ export const routeService = (function () {
                 if (transportModes.length > 1) {
                     getRoutes(getUrl(from, to, multimodal), tripgoApiKey, requirements--);
                 }
+                else {
+                    requirements--;
+                    if(requirements <= 1)
+                        L.tripgoRouting.mapLayer.getMessenger().hideMessage();
+                }
             }else{
                 console.error("Malformed coordinates");
             }
