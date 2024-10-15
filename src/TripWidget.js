@@ -56,11 +56,12 @@ export const tripWidget = (function () {
     }
 
     function parseSegment(segment) {
+        console.log(segment);
         if (segment.from !== undefined) {
             const mode = segment.modeInfo.alt;
             const serviceNumber = (segment.serviceNumber === undefined) ? "" : segment.serviceNumber;
-            const from = segment.from.address;
-            const to = segment.to.address;
+            const from = (segment.from.address === undefined) ? segment.from.lat + ", " + segment.from.lng : segment.from.address;
+            const to = (segment.to.address === undefined) ? segment.to.lat + ", " + segment.to.lng : segment.to.address;
 
             if (serviceNumber === "") {
                 return mode + " from " + from + " to " + to;
