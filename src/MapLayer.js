@@ -1,7 +1,7 @@
 import { Messenger } from "../src/Messenger.js";
+import { tripWidget } from "./TripWidget.js";
 
 export const mapLayer = (function() {
-
     let map = null;
     let mapId = "";
     let stops = [];
@@ -62,7 +62,7 @@ export const mapLayer = (function() {
             document.body.insertBefore(tripsPanel, L.DomUtil.get(mapId));
 
             L.DomEvent.on(window, "resize",function () {
-                L.tripgoRouting.mapLayer.mapResize((window.innerWidth - L.tripgoRouting.tripWidget.getWidth()), window.innerHeight);
+                this.tripgoRouting.mapLayer.mapResize((window.innerWidth - L.tripgoRouting.tripWidget.getWidth()), window.innerHeight);
                 L.tripgoRouting.tripWidget.getWidget().style.height = window.innerHeight + "px";
             });
         },
@@ -82,7 +82,6 @@ export const mapLayer = (function() {
         setTripDisplaying : function (displaying) {
             tripDisplaying = displaying;
         },
-
 
         mapResize : function(width, height){
             let element = L.DomUtil.get(this.getMapId());
@@ -119,8 +118,8 @@ export const mapLayer = (function() {
             if(stops.from !== undefined && stops.to !== undefined){
                 L.tripgoRouting.tripWidget.clearWidget();
 
-                if (L.tripgoRouting.mapLayer.getTripDisplaying() !== null) {
-                    L.tripgoRouting.mapLayer.getTripDisplaying().removeFromMap(map);
+                if (this.getTripDisplaying() !== null) {
+                    this.getTripDisplaying().removeFromMap(map);
                 }
 
                 let from = stops.from.getLatLng();
@@ -147,6 +146,17 @@ export const mapLayer = (function() {
                 map.removeLayer(stops.from);
                 map.removeLayer(stops.to);
                 stops = [];
+            }
+        },
+
+        // consider renaming
+        removeMarker : function(toOrFrom, value) {
+            if (value === "") {
+                map.removeLayer(stops[toOrFrom]);
+                delete stops[toOrFrom];
+                tripWidget.clearWidget();
+                this.getTripDisplaying().removeFromMap(map);
+                this.setTripDisplaying(null);
             }
         },
 

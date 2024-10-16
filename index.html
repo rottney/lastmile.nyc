@@ -72,6 +72,7 @@
         const origin = L.control.addressSearch(geoapifyKey, {
           position: "topleft",
           placeholder: "Origin",
+          mapViewBias: true,
           resultCallback: (address) => {
             if (address !== null) {
               const lat = address.lat;
@@ -85,6 +86,7 @@
         const destination = L.control.addressSearch(geoapifyKey, {
           position: "topleft",
           placeholder: "Destination",
+          mapViewBias: true,
           resultCallback: (address) => {
             if (address !== null) {
               const lat = address.lat;
@@ -95,7 +97,21 @@
         });
         map.addControl(destination);
 
+
         // Custom code
+
+        // Add event listeners for address boxes
+        const addresses = document.getElementsByClassName("geoapify-address-input");
+        const fromAddress = addresses[0];
+        const toAddress = addresses[1];
+        fromAddress.addEventListener("input", function() {mapLayer.removeMarker("from", fromAddress.value)});
+        toAddress.addEventListener("input", function() {mapLayer.removeMarker("to", toAddress.value)});
+        // and for clear buttons
+        const clearBtns = document.getElementsByClassName("geoapify-clear-button");
+        const clearFrom = clearBtns[0];
+        const clearTo = clearBtns[1];
+        clearFrom.addEventListener("click", function() {mapLayer.removeMarker("from", fromAddress.value)}); // is this gonna work?
+        clearTo.addEventListener("click", function() {mapLayer.removeMarker("to", toAddress.value)});
 
         // Add settings form
         L.Control.Settings = L.Control.extend({
