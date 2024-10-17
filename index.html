@@ -113,13 +113,50 @@
         clearFrom.addEventListener("click", function() {mapLayer.removeMarker("from", fromAddress.value)}); // is this gonna work?
         clearTo.addEventListener("click", function() {mapLayer.removeMarker("to", toAddress.value)});
 
+
+        // Add date/time picker
+        sessionStorage.clear(); // remove depart / arrive times on refresh
+
+        L.Control.DatePicker = L.Control.extend({
+          onAdd: function(map) {
+              const p = L.DomUtil.create("div");
+
+              const departArrive = `<button type="button" id="departarrive" onclick="toggleDepartArrive()">Depart</button>  `;
+              const dateTime = `<input type="datetime-local" id="datetime">`
+              const setClear = `  <button type="button" id="setclear" onclick="setDepartArrive()">Set</button>`;
+            
+              p.innerHTML = departArrive + dateTime + setClear;
+              return p;
+          },
+
+          onRemove: function(map) {
+            // Nothing to do here
+          }
+        });
+
+        L.control.datePicker = function(opts) {
+          return new L.Control.DatePicker(opts);
+        }
+
+        L.control.datePicker({position: 'topleft'}).addTo(map);
+
+        document.getElementById("datetime").addEventListener("input", function() {
+            const newDateTime = document.getElementById("datetime").value / 1000;
+            const departOrArrive = document.getElementById("departarrive").innerHTML.toLowerCase();
+            const oldDateTime = sessionStorage.getItem(departOrArrive);
+            if (oldDateTime !== null && newDateTime !== oldDateTime) {
+                sessionStorage.removeItem(departOrArrive);
+                document.getElementById("setclear").innerHTML = "Set";
+            }
+        });
+
+
         // Add settings form
         L.Control.Settings = L.Control.extend({
           onAdd: function(map) {
             const p = L.DomUtil.create("div");
 
             const settingsBtn = `<input type="image" src="resources/settings/settings.png" width="16" height="16" style="float: right;" onclick="toggleSettingsDisplay()"><br>`
-
             const settings = `
               <div id="settings">
                 <input type="checkbox" id="transitbox" onclick="populateStorage('transit')"> Show transit directions<br>
@@ -166,12 +203,57 @@
             if (localStorage.getItem("walkingThreshold") !== null) {
               walkingthreshold.value = localStorage.getItem("walkingThreshold");
               const swtBtn = document.getElementById("setwalkingthreshold");
-              swtBtn.innerHTML = "Unset";
+              swtBtn.innerHTML = "Clear";
             }
         }
     </script>
 
     <script>
+        function toggleDepartArrive() {
+          const departArrive = document.getElementById("departarrive");
+          const setClear = document.getElementById("setclear");
+
+          // unset sessionStorage
+          sessionStorage.removeItem(departArrive.innerHTML.toLowerCase());
+
+          if (departArrive.innerHTML === "Depart") {
+            departArrive.innerHTML = "Arrive";
+          }
+          else {
+            departArrive.innerHTML = "Depart";
+          }
+
+          setClear.innerHTML = "Set";
+        }
+
+        function setDepartArrive() {
+          const setClear = document.getElementById("setclear");
+          const dateTime = document.querySelector('input[type="datetime-local"]');
+          const departArrive = document.getElementById("departarrive");
+
+          if (setClear.innerHTML === "Set") {
+            // if empty string, alert user that date is improperly set
+            if (dateTime.value === "") {
+              alert("Date / time is not correctly set.");
+            }
+            else if (Date.parse(dateTime.value) < Date.now()) {
+              alert("Date / time is in the past.");
+            }
+            // else, set sessionStorage
+            else {
+              sessionStorage.setItem(departArrive.innerHTML.toLowerCase(), Date.parse(dateTime.value) / 1000);  // convert s to ms
+              setClear.innerHTML = "Clear";
+            }
+          }
+          else {
+            // unset sessionStorage
+            sessionStorage.removeItem(departArrive.innerHTML.toLowerCase());
+            dateTime.value = "";
+            setClear.innerHTML = "Set";
+          }
+        }
+
+
         function populateStorage(setting) {
           const checkbox = document.getElementById(setting + "box");
           localStorage.setItem(setting, checkbox.checked);
@@ -193,7 +275,7 @@
 
           if (swtBtn.innerHTML === "Set") {
             localStorage.setItem("walkingThreshold", walkingThreshold);
-            swtBtn.innerHTML = "Unset";
+            swtBtn.innerHTML = "Clear";
           }
           else {
             localStorage.removeItem("walkingThreshold");

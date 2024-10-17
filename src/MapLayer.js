@@ -62,7 +62,7 @@ export const mapLayer = (function() {
             document.body.insertBefore(tripsPanel, L.DomUtil.get(mapId));
 
             L.DomEvent.on(window, "resize",function () {
-                this.tripgoRouting.mapLayer.mapResize((window.innerWidth - L.tripgoRouting.tripWidget.getWidth()), window.innerHeight);
+                this.mapResize((window.innerWidth - L.tripgoRouting.tripWidget.getWidth()), window.innerHeight);
                 L.tripgoRouting.tripWidget.getWidget().style.height = window.innerHeight + "px";
             });
         },

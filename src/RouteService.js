@@ -16,6 +16,14 @@ export const routeService = (function () {
     function getUrl(from, to, mode){
         let url = baseURL +  mode;
         let routeUrl = url +"&from=("+from.lat+","+from.lng+")&to=("+to.lat+","+to.lng+")";
+
+        if (sessionStorage.getItem("depart") !== null) {
+            routeUrl += "&departAfter=" + sessionStorage.getItem("depart");
+        }
+        if (sessionStorage.getItem("arrive") !== null) {
+            routeUrl += "&arriveBefore=" + sessionStorage.getItem("arrive");
+        }
+
         return routeUrl;
     }
 
@@ -64,6 +72,7 @@ export const routeService = (function () {
     }
 
     function getRoutes(url, apiKey, requirements) {
+        //console.log(url);
         // make the request to SkedGo backend
         $.ajax({
             url         : url,

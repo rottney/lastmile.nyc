@@ -1,36 +1,58 @@
+const lirrLines = [
+    "Babylon Branch",
+    "City Terminal Zone",
+    "Far Rockaway Branch",
+    "Hempstead Branch",
+    "Long Beach Branch",
+    "Montauk Branch",
+    "Oyster Bay Branch",
+    "Port Jefferson Branch",
+    "Port Washington Branch",
+    "Ronkonkoma Branch",
+    "West Hempstead Branch",
+];
+
+const metroNorthLines = [
+    "Harlem",
+    "Hudson",
+    "New Haven",
+];
+
+// do I need these?
+const njTransitLines = [
+    
+];
+
+const amtrakLines = [
+    "Acela",
+    "Keystone Service",
+    "Northeast Regional",
+];
+
+
+function convertTo12HrClock(time) {
+    let hour = time.slice(0, 2);
+    const min = time.slice(-2);
+    let amPm = "";
+
+    if (hour === "12") {
+        amPm = " PM";
+    }
+    else if (hour < "12") {
+        amPm = " AM";
+    }
+    else {
+        hour -= "12";
+        amPm = " PM"
+    }
+
+    return hour + ":" + min + amPm;
+}
+
+
 export const tripWidget = (function () {
-
+    // should this be moved out of export?
     let directions = [];
-
-    const lirrLines = [
-        "Babylon Branch",
-        "City Terminal Zone",
-        "Far Rockaway Branch",
-        "Hempstead Branch",
-        "Long Beach Branch",
-        "Montauk Branch",
-        "Oyster Bay Branch",
-        "Port Jefferson Branch",
-        "Port Washington Branch",
-        "Ronkonkoma Branch",
-        "West Hempstead Branch",
-    ];
-
-    const metroNorthLines = [
-        "Harlem",
-        "Hudson",
-        "New Haven",
-    ];
-
-    const njTransitLines = [
-        
-    ];
-
-    const amtrakLines = [
-        "Acela",
-        "Keystone Service",
-        "Northeast Regional",
-    ];
 
 
     function span(text, className){
@@ -79,8 +101,10 @@ export const tripWidget = (function () {
     function timesWidget(trip) {
         let times = div("");
 
+        const arriveTime = convertTo12HrClock(trip.arriveTime);
+
         let duration = span(trip.getDurationMinutes + " min ", "tripDuration");
-        let arrive = span(" (arrive " + trip.arriveTime + ")", "tripArrive");
+        let arrive = span(" (arrive " + arriveTime + ")", "tripArrive");
         times.appendChild(duration);
         times.appendChild(arrive);
         return times;
