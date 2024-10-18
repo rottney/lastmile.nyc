@@ -101,10 +101,18 @@ export const tripWidget = (function () {
     function timesWidget(trip) {
         let times = div("");
 
-        const arriveTime = convertTo12HrClock(trip.arriveTime);
+        let arriveTime = convertTo12HrClock(trip.arriveTime);
 
         let duration = span(trip.getDurationMinutes + " min ", "tripDuration");
+
+        if (
+            sessionStorage.getItem("arrive") !== null && 
+            parseInt(sessionStorage.getItem("arrive")) < trip.arrive
+        ) {
+            arriveTime = `<span style="color:Red;">` + arriveTime + `</span>`;
+        }
         let arrive = span(" (arrive " + arriveTime + ")", "tripArrive");
+
         times.appendChild(duration);
         times.appendChild(arrive);
         return times;

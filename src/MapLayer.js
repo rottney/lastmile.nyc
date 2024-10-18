@@ -46,7 +46,7 @@ export const mapLayer = (function() {
             map = L.map(mapId).setView([options.mapCenter.lat,options.mapCenter.lng], 11);
             setOSMTile();
 
-            this.mapResize(window.innerWidth, window.innerHeight);
+            L.tripgoRouting.mapLayer.mapResize(window.innerWidth, window.innerHeight);
 
             tripgoApiKey = options.tripgoApiKey;
             floatPanel = options.floatPanel;
@@ -62,7 +62,7 @@ export const mapLayer = (function() {
             document.body.insertBefore(tripsPanel, L.DomUtil.get(mapId));
 
             L.DomEvent.on(window, "resize",function () {
-                this.mapResize((window.innerWidth - L.tripgoRouting.tripWidget.getWidth()), window.innerHeight);
+                L.tripgoRouting.mapLayer.mapResize((window.innerWidth - L.tripgoRouting.tripWidget.getWidth()), window.innerHeight);
                 L.tripgoRouting.tripWidget.getWidget().style.height = window.innerHeight + "px";
             });
         },

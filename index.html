@@ -278,6 +278,8 @@
             swtBtn.innerHTML = "Clear";
           }
           else {
+            const wtBox = document.getElementById("walkingthreshold");
+            wtBox.value = "";
             localStorage.removeItem("walkingThreshold");
             swtBtn.innerHTML = "Set";
           }

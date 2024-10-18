@@ -192,8 +192,8 @@ export const routeService = (function () {
                         from = L.latLng(fromLat, fromLng);
                         to = L.latLng(toLat, toLng);
                         // use bicycle icon...
-                        L.marker(from).addTo(L.tripgoRouting.mapLayer.getMap());
-                        L.marker(to).addTo(L.tripgoRouting.mapLayer.getMap());
+                        //L.marker(from).addTo(L.tripgoRouting.mapLayer.getMap());
+                        //L.marker(to).addTo(L.tripgoRouting.mapLayer.getMap());
                     }
                     let url = getUrl(from, to, "&modes="+mode);
 
