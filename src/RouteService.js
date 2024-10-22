@@ -7,6 +7,7 @@ export const routeService = (function () {
 
     let templatesCache = [];
     let globali = 0;
+    let numModesToSearch = 0;
     /*
     const transportModes = ["pt_pub", "ps_tax", "me_car", "me_mot", "cy_bic", "wa_wal", "ps_tax_MYDRIVER", "ps_tnc_UBER",
         "me_car-r_SwiftFleet", "me_car-p_BlaBlaCar", "cy_bic-s"];
@@ -115,6 +116,14 @@ export const routeService = (function () {
                 }
                 L.tripgoRouting.mapLayer.getMessenger().hideMessage();
                 L.tripgoRouting.mapLayer.getMessenger().error("service-not-available, The routing service is currently not available, <br> please check your API key or try again later" );
+            },
+
+            complete    : function() {
+                numModesToSearch--;
+                if (numModesToSearch === 0) {
+                    draw();
+                    numModesToSearch = 0;
+                }
             }
         });
     }
@@ -137,6 +146,31 @@ export const routeService = (function () {
         return true;
     }
 
+    let routes = [];
+
+    function draw() {
+        // order the routes by arrival time
+        routes.sort((a, b) => {
+            if (a.arrive < b.arrive) {
+                return -1;
+            }
+            else if (a.arrive > b.arrive) {
+                return 1;
+            }
+            return 0;   // they are the same.. should we remove duplicates?
+        });
+
+        // then draw
+        routes.forEach(function(element) {
+            L.tripgoRouting.tripWidget.addTrip(element, "trip" + globali);
+            globali++;
+        });
+
+        if(!L.tripgoRouting.mapLayer.showingTrip()) {
+            routes[0].drawTrip(L.tripgoRouting.mapLayer.getMap());
+        }
+    }
+
     function success(result) {
         let belowThreshold = true;
 
@@ -146,11 +180,8 @@ export const routeService = (function () {
 
         if (belowThreshold === true) {
             result.forEach(function(element) {
-                L.tripgoRouting.tripWidget.addTrip(element, "trip" + globali);
-                globali++;
+                routes.push(element);
             });
-            if(!L.tripgoRouting.mapLayer.showingTrip())
-                result[0].drawTrip(L.tripgoRouting.mapLayer.getMap());
         }
     };
 
@@ -174,7 +205,13 @@ export const routeService = (function () {
         *       to: leaflet latlng
         * */
         route : function(tripgoApiKey, from, to, transportModes, stations, statuses){
+            routes = [];
             let requirements = transportModes.length + 1;
+            numModesToSearch = transportModes.length;
+            if (numModesToSearch >= 1) {
+                numModesToSearch += 1;
+            }
+
             if(L.tripgoRouting.validLatLng(from) && L.tripgoRouting.validLatLng(to)){
                 L.tripgoRouting.mapLayer.getMessenger().info("getting routes form SkedGo server ...");
                 let multimodal =  "";

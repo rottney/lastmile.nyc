@@ -118,8 +118,8 @@ export const mapLayer = (function() {
             if(stops.from !== undefined && stops.to !== undefined){
                 L.tripgoRouting.tripWidget.clearWidget();
 
-                if (this.getTripDisplaying() !== null) {
-                    this.getTripDisplaying().removeFromMap(map);
+                if (L.tripgoRouting.mapLayer.getTripDisplaying() !== null) {
+                    L.tripgoRouting.mapLayer.getTripDisplaying().removeFromMap(map);
                 }
 
                 let from = stops.from.getLatLng();
@@ -151,12 +151,12 @@ export const mapLayer = (function() {
 
         // consider renaming
         removeMarker : function(toOrFrom, value) {
-            if (value === "") {
+            if (value === "" && stops.length !== 0) {
                 map.removeLayer(stops[toOrFrom]);
                 delete stops[toOrFrom];
                 tripWidget.clearWidget();
-                this.getTripDisplaying().removeFromMap(map);
-                this.setTripDisplaying(null);
+                L.tripgoRouting.mapLayer.getTripDisplaying().removeFromMap(map);
+                L.tripgoRouting.mapLayer.setTripDisplaying(null);
             }
         },
 

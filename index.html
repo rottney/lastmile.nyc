@@ -274,8 +274,13 @@
           const swtBtn = document.getElementById("setwalkingthreshold");
 
           if (swtBtn.innerHTML === "Set") {
-            localStorage.setItem("walkingThreshold", walkingThreshold);
-            swtBtn.innerHTML = "Clear";
+            if (Number.isNaN(Number.parseInt(walkingThreshold))) {
+              alert(`"${walkingThreshold}" is not a valid distance measurement. Please try again.`);
+            }
+            else {
+              localStorage.setItem("walkingThreshold", walkingThreshold);
+              swtBtn.innerHTML = "Clear";
+            }
           }
           else {
             const wtBox = document.getElementById("walkingthreshold");
