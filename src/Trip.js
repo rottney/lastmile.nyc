@@ -96,13 +96,24 @@ export class Trip {
         return L.tripgoRouting.util.getTime(this.depart);
     }
 
-    get getDurationMinutes(){
-        return Math.floor((this.arrive - this.depart) / 60);
-    }
+    get getDuration(){
+        let mins = Math.floor((this.arrive - this.depart) / 60);
+        if (mins < 60) {
+            return `${mins} min`;
+        }
+        else if (mins === 60) {
+            return "1 hr";
+        }
 
+        let hours = 0;
+        while (mins > 60) {
+            hours++;
+            mins -= 60;
+        }
+        return `${hours} hr ${mins} min`;
+    }
 
     static getModeColor(modeColor){
         return "rgb(" + modeColor.red + "," + modeColor.green + "," + modeColor.blue + ")";
     }
-
 }

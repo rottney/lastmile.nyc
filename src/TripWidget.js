@@ -102,8 +102,8 @@ export const tripWidget = (function () {
         let times = div("");
 
         let arriveTime = convertTo12HrClock(trip.arriveTime);
-
-        let duration = span(trip.getDurationMinutes + " min ", "tripDuration");
+        
+        let duration = span(trip.getDuration, "tripDuration");
 
         if (
             sessionStorage.getItem("arrive") !== null && 
