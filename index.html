@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.css" />
     <script src="https://unpkg.com/@geoapify/leaflet-address-search-plugin@^1/dist/L.Control.GeoapifyAddressSearch.min.js"></script>
 
+    <link rel="stylesheet" href="css/DistanceUnit.css">
   </head>
   <body>
     <div id="map"></div>
@@ -164,7 +165,12 @@
                 <input type="checkbox" id="walkingbox" onclick="populateStorage('walking')"> Show walking directions<br>
                 <input type="checkbox" id="ridesharebox" onclick="populateStorage('rideshare')"> Show rideshare directions<br>
                 <hr>
-                <input type="text" id="walkingthreshold" size="2"> Walking threshold (meters)<br>
+                <label class="switch">
+                  <input type="checkbox" id="distanceunit" onclick="getDistanceUnit()">
+                  <span class="slider"></span>
+                </label>
+                <span>Distance unit</span><br>
+                <input type="text" id="walkingthreshold" size="2"> Walking threshold<br>
                 <button type="button" id="setwalkingthreshold" onclick="setWalkingThreshold()">Set</button>
               </div>
             `;
@@ -199,6 +205,13 @@
             bikesharebox.checked = localStorage.getItem("bikeshare") === "true";
             walkingbox.checked = localStorage.getItem("walking") === "true";
             ridesharebox.checked = localStorage.getItem("rideshare") === "true";
+
+            // make km the default distance if unit is not set
+            if (localStorage.getItem("distanceunit") === null) {
+              localStorage.setItem("distanceunit", "km");
+            }
+            const distanceUnit = document.getElementById("distanceunit");
+            distanceUnit.checked = localStorage.getItem("distanceunit") === "mi";
 
             if (localStorage.getItem("walkingThreshold") !== null) {
               walkingthreshold.value = localStorage.getItem("walkingThreshold");
@@ -287,6 +300,17 @@
             wtBox.value = "";
             localStorage.removeItem("walkingThreshold");
             swtBtn.innerHTML = "Set";
+          }
+        }
+
+        function getDistanceUnit() {
+          // "checked" = miles, "unchecked" = km
+          const isMiles = document.getElementById("distanceunit").checked;
+          if (isMiles === true) {
+            localStorage.setItem("distanceunit", "mi");
+          }
+          else {
+            localStorage.setItem("distanceunit", "km");
           }
         }
     </script>

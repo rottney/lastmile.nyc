@@ -57,11 +57,12 @@ export class Segment {
         return waypointsList;
     }
 
+    // is this ever used?
     get getDurationMinutes(){
         return Math.floor((this.endTime - this.startTime) / 60);
     }
 
-    get getDistanceString(){
+    get getDistanceStringMetric(){
         if(this.meters !== undefined){
             if(this.meters < 1000)
                 return this.meters + " m";
@@ -72,4 +73,15 @@ export class Segment {
 
     }
 
+    get getDistanceStringImperial() {
+        if (this.meters !== undefined) {
+            const miles = (this.meters * 0.000621371).toFixed(1);
+            if (miles < 0.1) {
+                return "< .1 mi"
+            }
+            return miles + " mi";
+        }
+
+        return "";
+    }
 }

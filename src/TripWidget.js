@@ -102,9 +102,10 @@ export const tripWidget = (function () {
         let times = div("");
 
         let arriveTime = convertTo12HrClock(trip.arriveTime);
-        
+
         let duration = span(trip.getDuration, "tripDuration");
 
+        // render text red if actual arrive time is after desired arrive time
         if (
             sessionStorage.getItem("arrive") !== null && 
             parseInt(sessionStorage.getItem("arrive")) < trip.arrive
@@ -226,8 +227,10 @@ export const tripWidget = (function () {
                 text.innerHTML = "<span style='color:black;'>" + service + "</span>" + "<br>" + L.tripgoRouting.util.getTime(segment.startTime);
             }
             else{
-                if(segment.getDistanceString !== undefined)
-                    text.innerHTML = segment.getDistanceString;
+                if(segment.getDistanceStringMetric !== undefined) {
+                    const distance = localStorage.getItem("distanceunit") === "km" ? segment.getDistanceStringMetric : segment.getDistanceStringImperial;
+                    text.innerHTML = distance;
+                }
             }
 
             segmentDetails.appendChild(text);
