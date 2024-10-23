@@ -151,7 +151,7 @@ export const mapLayer = (function() {
 
         // consider renaming
         removeMarker : function(toOrFrom, value) {
-            if (value === "" && stops.length !== 0) {
+            if (value === "" && toOrFrom in stops) {
                 map.removeLayer(stops[toOrFrom]);
                 delete stops[toOrFrom];
                 tripWidget.clearWidget();
