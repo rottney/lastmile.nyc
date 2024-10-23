@@ -4,7 +4,6 @@
     <title>lastmile.nyc</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
     <link rel="shortcut icon" href="images/favicon.png">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -172,6 +171,12 @@
                 <span>Distance unit</span><br>
                 <input type="text" id="walkingthreshold" size="2"> Walking threshold<br>
                 <button type="button" id="setwalkingthreshold" onclick="setWalkingThreshold()">Set</button>
+                <hr>
+                <label for="sorttype">Sort results by:</label><br>
+                <select name="sorttype" id="sorttype" onchange="setSortType()">
+                  <option value="arrive">Soonest arrival</option>
+                  <option value="duration">Shortest duration</option>
+                </select>
               </div>
             `;
 
@@ -195,29 +200,38 @@
 
         // Sync form state with local storage
         function loadSettings(settings) {
+            // Transit modes
             const transitbox = document.getElementById("transitbox");
             const bikesharebox = document.getElementById("bikesharebox");
             const walkingbox = document.getElementById("walkingbox");
             const ridesharebox = document.getElementById("ridesharebox");
-            const walkingthreshold = document.getElementById("walkingthreshold");
 
             transitbox.checked = localStorage.getItem("transit") === "true";
             bikesharebox.checked = localStorage.getItem("bikeshare") === "true";
             walkingbox.checked = localStorage.getItem("walking") === "true";
             ridesharebox.checked = localStorage.getItem("rideshare") === "true";
 
+            // Distance settings
+            const distanceUnit = document.getElementById("distanceunit");
             // make km the default distance if unit is not set
             if (localStorage.getItem("distanceunit") === null) {
               localStorage.setItem("distanceunit", "km");
             }
-            const distanceUnit = document.getElementById("distanceunit");
             distanceUnit.checked = localStorage.getItem("distanceunit") === "mi";
 
+            const walkingthreshold = document.getElementById("walkingthreshold");
             if (localStorage.getItem("walkingThreshold") !== null) {
               walkingthreshold.value = localStorage.getItem("walkingThreshold");
               const swtBtn = document.getElementById("setwalkingthreshold");
               swtBtn.innerHTML = "Clear";
             }
+
+            // Results sorting
+            const resultSortType = document.getElementById("sorttype");
+            if (localStorage.getItem("sorttype") === null) {
+              localStorage.setItem("sorttype", "arrive");
+            }
+            localStorage.getItem("sorttype") === "arrive" ? resultSortType.value = "arrive" : resultSortType.value = "duration";
         }
     </script>
 
@@ -311,6 +325,16 @@
           }
           else {
             localStorage.setItem("distanceunit", "km");
+          }
+        }
+
+        function setSortType() {
+          const sortType = document.getElementById("sorttype").value;
+          if (sortType === "arrive") {
+            localStorage.setItem("sorttype", "arrive");
+          }
+          else {
+            localStorage.setItem("sorttype", "duration");
           }
         }
     </script>

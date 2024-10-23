@@ -148,17 +148,34 @@ export const routeService = (function () {
 
     let routes = [];
 
+    function sortResults(sortType) {
+        if (sortType === "arrive") {
+            // order the routes by arrival time
+            routes.sort((a, b) => {
+                if (a.arrive < b.arrive) {
+                    return -1;
+                }
+                else if (a.arrive > b.arrive) {
+                    return 1;
+                }
+                return 0;   // they are the same.. should we remove duplicates?
+            });
+        }
+        else {
+            routes.sort((a, b) => {
+                if (a.arrive - a.depart < b.arrive - b.depart) {
+                    return -1;
+                }
+                else if (a.arrive - a.depart > b.arrive - b.depart) {
+                    return 1;
+                }
+                return 0;
+            });
+        }
+    }
+
     function draw() {
-        // order the routes by arrival time
-        routes.sort((a, b) => {
-            if (a.arrive < b.arrive) {
-                return -1;
-            }
-            else if (a.arrive > b.arrive) {
-                return 1;
-            }
-            return 0;   // they are the same.. should we remove duplicates?
-        });
+        sortResults(localStorage.getItem("sorttype"));
 
         // then draw
         routes.forEach(function(element) {
