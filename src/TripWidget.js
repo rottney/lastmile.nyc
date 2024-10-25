@@ -27,6 +27,7 @@ const amtrakLines = [
     "Acela",
     "Keystone Service",
     "Northeast Regional",
+    // maybe more
 ];
 
 
@@ -238,7 +239,55 @@ export const tripWidget = (function () {
         return segmentDetails;
     }
 
-     function moreDataWidget(trip){
+    /*
+    Per MTA website:
+        "You get one free transfer within two hours of paying your fare. 
+        You can transfer from subway to bus, bus to subway, or bus to bus.
+        "
+    Subway fare: $2.90
+        * free transfers _within system_
+    Bus fare: $2.90
+    Ferry fare: $4.50
+    */
+   /*
+    function computeCost(trip) {
+        console.log(trip);
+        const ptSegments = trip["segments"].filter((segment) => segment.modeIdentifier == "pt_pub");
+        console.log(ptSegments);
+
+        let numSubwaySegments = 0;
+        let subwaySegments = [];
+        let numBusSegments = 0;
+        let numFerrySegments = 0;
+        for (let segment of ptSegments) {
+            let mode = segment.modeInfo.alt;
+            if (mode === "Subway") {
+                numSubwaySegments++;
+                subwaySegments.push(segment);
+            }
+            else if (mode === "Bus")
+                numBusSegments++;
+            else if (mode === "Ferry")
+                numFerrySegments++;
+            else
+                console.log(`unhandled mode: ${mode}`)
+        }
+        
+        let cost = trip["moneyCost"];
+
+
+        return "implementMe ";
+    }
+    */
+
+    /*
+    How "moneyCost" is calculated in TripGo (it is wrong):
+        * Subway: $2.75 *per line*
+        * Subway + bus: $2.75
+        * Bus: $2.75 (unlimited lines)
+        * Anything with a ferry - undefined (I think?)
+    */
+    function moreDataWidget(trip){
         let moreData = div("more");
 
         let moneyCost = "";
@@ -247,6 +296,7 @@ export const tripWidget = (function () {
         else
             if(trip.moneyCost === 0)
                 moneyCost = "Free - ";
+        //const moneyCost = computeCost(trip);
 
         let carbonCost;
         if(trip.carbonCost !== undefined)

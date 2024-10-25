@@ -33,7 +33,7 @@ export const mapLayer = (function() {
         }
         if (localStorage.getItem("rideshare") !== null && localStorage.getItem("rideshare") === "true") {
             modes.push("ps_tax");
-            modes.push("ps_tnc")
+            modes.push("ps_tnc");   // this appears to be broken
         }
 
         return modes;

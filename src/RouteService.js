@@ -21,6 +21,10 @@ export const routeService = (function () {
         if (sessionStorage.getItem("depart") !== null) {
             routeUrl += "&departAfter=" + sessionStorage.getItem("depart");
         }
+        else {  // still have depart after "now"
+            routeUrl += "&departAfter=" + Math.floor(Date.now() / 1000);
+        }
+
         if (sessionStorage.getItem("arrive") !== null) {
             routeUrl += "&arriveBefore=" + sessionStorage.getItem("arrive");
         }
