@@ -48,6 +48,10 @@
         const lng = -73.9795382135;
 
         // Tripgo initialization
+        const tripgoKey = await fetch("resources/keys.json")
+          .then(response => response.json())
+          .then(jsonResponse => {return jsonResponse["tripgoKey"]});
+
         let tripgoOptions = {
             "mapId" : "map",
             "mapCenter" : {
@@ -55,7 +59,7 @@
                 "lng": lng,
             },
             "floatPanel": true,
-            "tripgoApiKey": "9f9623a674f4307a10083542fc91748d", // HIDE ME
+            "tripgoApiKey": tripgoKey,
         };
 
         L.tripgoRouting.mapLayer = mapLayer;
@@ -67,7 +71,9 @@
         L.tripgoRouting.tripWidget = tripWidget;
 
         // Geoapify initialization
-        const geoapifyKey = "b054a9def22d4a9cb953354cf062f058"; // HIDE ME
+        const geoapifyKey = await fetch("resources/keys.json")
+          .then(response => response.json())
+          .then(jsonResponse => {return jsonResponse["geoapifyKey"]});
 
         const origin = L.control.addressSearch(geoapifyKey, {
           position: "topleft",
