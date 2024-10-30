@@ -171,7 +171,7 @@
                 <input type="checkbox" id="ridesharebox" onclick="populateStorage('rideshare')"> Show rideshare directions<br>
                 <hr>
                 <label class="switch">
-                  <input type="checkbox" id="distanceunit" onclick="getDistanceUnit()">
+                  <input type="checkbox" id="distanceunit" onclick="toggleDistanceUnit()">
                   <span class="slider"></span>
                 </label>
                 <span>Distance unit</span><br>
@@ -302,8 +302,16 @@
           }
         }
 
+        function clearWalkingThreshold() {
+          const wtBox = document.getElementById("walkingthreshold");
+          const swtBtn = document.getElementById("setwalkingthreshold");
+          localStorage.removeItem("walkingThreshold");
+          wtBox.value = "";
+          swtBtn.innerHTML = "Set";
+        }
+
         function setWalkingThreshold() {
-          const walkingThreshold = document.getElementById("walkingthreshold").value;
+          let walkingThreshold = document.getElementById("walkingthreshold").value;
           const swtBtn = document.getElementById("setwalkingthreshold");
 
           if (swtBtn.innerHTML === "Set") {
@@ -311,19 +319,19 @@
               alert(`"${walkingThreshold}" is not a valid distance measurement. Please try again.`);
             }
             else {
+              if (localStorage.getItem("distanceunit") === "km") {
+                walkingThreshold *= 1000;
+              }
               localStorage.setItem("walkingThreshold", walkingThreshold);
               swtBtn.innerHTML = "Clear";
             }
           }
           else {
-            const wtBox = document.getElementById("walkingthreshold");
-            wtBox.value = "";
-            localStorage.removeItem("walkingThreshold");
-            swtBtn.innerHTML = "Set";
+            clearWalkingThreshold();
           }
         }
 
-        function getDistanceUnit() {
+        function toggleDistanceUnit() {
           // "checked" = miles, "unchecked" = km
           const isMiles = document.getElementById("distanceunit").checked;
           if (isMiles === true) {
@@ -332,6 +340,9 @@
           else {
             localStorage.setItem("distanceunit", "km");
           }
+
+          // must clear walking threshold (if set) when toggling distance unit
+          clearWalkingThreshold();
         }
 
         function setSortType() {

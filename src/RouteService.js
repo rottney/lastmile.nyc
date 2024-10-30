@@ -144,6 +144,10 @@ export const routeService = (function () {
             }
         }
 
+        if (localStorage.getItem("distanceunit") === "mi") {
+            totalWalking *= 0.000621371;
+        }
+
         if (totalWalking > walkingThreshold) {
             return false;
         }
