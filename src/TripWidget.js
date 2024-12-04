@@ -44,7 +44,11 @@ function convertTo12HrClock(time) {
     }
     else {
         hour -= "12";
-        amPm = " PM"
+        amPm = " PM";
+    }
+
+    if (hour === "00") {
+        hour = "12";
     }
 
     return hour + ":" + min + amPm;
