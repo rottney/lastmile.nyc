@@ -30,3 +30,13 @@ lastmile.nyc is made possible with the following external technologies:
 * Bikeshare-specific routing: [Citi Bike System Data](https://gbfs.citibikenyc.com/gbfs/2.3/gbfs.json)
 * Address lookup: [Geoapify Geocoding API](https://www.geoapify.com/geocoding-api/)
 * Web hosting: [GitHub Pages](https://pages.github.com/)
+
+## Challenges
+The TripGo Routing API is quite outdated. The "shared micromobility" mode only supports Lime, which does not exist in New York - this is why I had to separately use the Citi Bike data. My workaround was to use TripGo to find regular biking directions, starting from the nearest Citi Bike station (from the origin) with available bikes, and going to the nearest Citi Bike station (to the destination) with available docks.
+
+The pricing information returned by the TripGo API is outdated; MTA fares have been increased from $2.75 to $2.90. Additionally, the API incorrectly assumes that each subway line per trip incurs an additional cost; this is not true [per the MTA website](https://new.mta.info/fares). **This is a known issue that will be addressed in a future release.**
+
+## Feedback?
+If you notice any issues while using the app, please feel free to open a bug report using the [Issues](https://github.com/rottney/lastmile.nyc/issues) tab and I will get it fixed as quickly as possible.
+
+Contributions welcome! Please reach out at rottney123@gmail.com if interested and I will be happy to get you onboarded. 🙂
