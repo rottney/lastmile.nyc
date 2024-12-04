@@ -1,5 +1,5 @@
 # lastmile.nyc - Solving the last mile in style
-<img width="1440" alt="lastmile_screen" src="https://github.com/user-attachments/assets/c7b009ec-1529-40e8-8d19-617c9a78867e">
+<img width="1440" alt="lastmile_screen" src="https://github.com/user-attachments/assets/4ad4cf1f-58fe-443f-9f81-d90a8d1e74b4">
 
 ## Summary
 lastmile.nyc is a navigation web app focused on multimodal routing, written in Vanilla JS. While designed for use in and around New York City, it will work for basic navigation in any location, with the exception of bikeshare mode. Note that this application does **not** provide driving directions, as it is common to not own a car in NYC!
